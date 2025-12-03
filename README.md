@@ -13,7 +13,7 @@ First, clone and cd into the repository.
 
 ```bash
 git clone https://github.com/mekecemre/CMPE-343-OOP-Project-2.git
-cd CMPE-343-Project-2/
+cd CMPE-343-OOP-Project-2/
 ```
 ## Prerequisites to Run the Project
 
@@ -71,7 +71,7 @@ EXIT;
 
 ```bash
 # Navigate to project directory
-cd CMPE-343-Project-2
+cd CMPE-343-OOP-Project-2
 
 # Import the SQL file (REQUIRED)
 mysql -u myuser -p1234 < group5.sql
@@ -151,7 +151,7 @@ EXIT;
 
 ```bash
 # Navigate to project directory
-cd CMPE-343-Project-2
+cd CMPE-343-OOP-Project-2
 
 # Import the SQL file (REQUIRED)
 mysql -u myuser -p1234 < group5.sql
@@ -177,7 +177,7 @@ Expected output if verification is successful:
 
 ```bash
 # cd into the /src directory
-cd CMPE-343-Project-2/src
+cd CMPE-343-OOP-Project-2/src
 
 # Generate the Javadoc
 javadoc -d ../docs \
@@ -195,6 +195,6 @@ javadoc -d ../docs \
 - cd into the src folder and generate it
 
 ```cmd
-cd CMPE-343-Project-2\src
+cd CMPE-343-OOP-Project-2\src
 javadoc -d ..\docs -encoding UTF-8 -charset UTF-8 -docencoding UTF-8 -author -version Main.java models\*.java managers\*.java utils\*.java roles\*.java
 ```
