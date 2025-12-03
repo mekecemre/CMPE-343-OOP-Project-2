@@ -1,0 +1,35 @@
+# Class Files
+*.class
+
+# IDE Specific Directories
+.zed/
+.idea/
+.vscode/
+.eclipse/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+
+# Log Files
+*.log
+
+# Temporary Files
+*.tmp
+*.bak
+
+# MySQL Data Files
+*.sql~
+
+# Build Directories
+bin/
+build/
+out/
+
+# JAR Files Except mysql-connector-java.jar
+*.jar
+!src/mysql-connector-java.jar
