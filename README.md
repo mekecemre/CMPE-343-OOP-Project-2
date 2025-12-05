@@ -24,10 +24,9 @@ cd CMPE-343-OOP-Project-2/
 ### Install MySQL and Start the Service
 
 1. Download MySQL Installer from: https://dev.mysql.com/downloads/installer/
-2. Run the installer and choose "Developer Default"
-3. Follow the installation wizard
-4. Set root password when prompted
-5. Start MySQL service by typing in CMD the following:
+2. Run the installer and follow the steps of the installation wizard. (You can choose the defaults and keep selecting next.)
+3. Set root password when prompted
+4. Start MySQL service by typing in CMD the following:
 
 ```cmd
    net start MySQL80
@@ -41,7 +40,7 @@ cd CMPE-343-OOP-Project-2/
 5. Click **New** and add the path to the MySQL `bin` directory, for example: `C:\Program Files\MySQL\MySQL Server X.X\bin`
 6. Click **OK** to close the dialogs and apply the changes.
 7. Open a new CMD Window for the change to take effect
-### Create the Database User
+### Create the Database User (Optional, as it's already included within the group5.sql file)
 
 Execute the following in CMD:
 
@@ -65,7 +64,7 @@ FLUSH PRIVILEGES;
 -- Exit MySQL
 EXIT;
 ```
-### Import Database Schema and Data
+### Import Database Schema and Data (Optional, as it's already handled)
 
 **Note:** The database `contact_management` will be created automatically by the SQL script.
 
