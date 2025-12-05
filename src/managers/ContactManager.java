@@ -63,8 +63,8 @@ public class ContactManager {
         String sql = "SELECT * FROM contacts ORDER BY contact_id";
 
         try (Connection conn = dbManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 contacts.add(extractContactFromResultSet(rs));
@@ -86,7 +86,7 @@ public class ContactManager {
         String sql = "SELECT * FROM contacts WHERE contact_id = ?";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, contactId);
             ResultSet rs = pstmt.executeQuery();
@@ -109,11 +109,11 @@ public class ContactManager {
      */
     public int addContact(Contact contact) {
         String sql = "INSERT INTO contacts (first_name, middle_name, last_name, nickname, " +
-                     "phone_primary, phone_secondary, email, linkedin_url, birth_date) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "phone_primary, phone_secondary, email, linkedin_url, birth_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, contact.getFirstName());
             pstmt.setString(2, contact.getMiddleName());
@@ -148,11 +148,11 @@ public class ContactManager {
      */
     public boolean updateContact(Contact contact) {
         String sql = "UPDATE contacts SET first_name = ?, middle_name = ?, last_name = ?, " +
-                     "nickname = ?, phone_primary = ?, phone_secondary = ?, email = ?, " +
-                     "linkedin_url = ?, birth_date = ? WHERE contact_id = ?";
+                "nickname = ?, phone_primary = ?, phone_secondary = ?, email = ?, " +
+                "linkedin_url = ?, birth_date = ? WHERE contact_id = ?";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, contact.getFirstName());
             pstmt.setString(2, contact.getMiddleName());
@@ -184,7 +184,7 @@ public class ContactManager {
         String sql = "DELETE FROM contacts WHERE contact_id = ?";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, contactId);
             int rowsAffected = pstmt.executeUpdate();
@@ -219,8 +219,8 @@ public class ContactManager {
     /**
      * Searches contacts by a single field with exact or partial match.
      *
-     * @param fieldName The field name to search
-     * @param value The value to search for
+     * @param fieldName  The field name to search
+     * @param value      The value to search for
      * @param exactMatch true for exact match, false for partial match
      * @return List of matching contacts
      */
@@ -235,7 +235,7 @@ public class ContactManager {
         }
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             if (exactMatch) {
                 pstmt.setString(1, value);
@@ -272,7 +272,7 @@ public class ContactManager {
         String sql = "SELECT * FROM contacts WHERE " + whereClause;
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             List<String> values = criteria.getParameterValues();
             for (int i = 0; i < values.size(); i++) {
@@ -292,9 +292,10 @@ public class ContactManager {
     }
 
     /**
-     * Sorts a list of contacts by a specified field in ascending or descending order.
+     * Sorts a list of contacts by a specified field in ascending or descending
+     * order.
      *
-     * @param contacts The list of contacts to sort
+     * @param contacts  The list of contacts to sort
      * @param fieldName The field name to sort by
      * @param ascending true for ascending order, false for descending
      * @return Sorted list of contacts
@@ -332,7 +333,7 @@ public class ContactManager {
     /**
      * Gets the value of a specified field from a Contact object.
      *
-     * @param contact The Contact object
+     * @param contact   The Contact object
      * @param fieldName The field name
      * @return The field value as a String
      */
@@ -372,7 +373,7 @@ public class ContactManager {
         Map<String, Object> stats = new HashMap<>();
 
         try (Connection conn = dbManager.getConnection();
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
 
             // Total contacts
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM contacts");
@@ -381,7 +382,8 @@ public class ContactManager {
             }
 
             // Contacts with LinkedIn
-            rs = stmt.executeQuery("SELECT COUNT(*) FROM contacts WHERE linkedin_url IS NOT NULL AND linkedin_url != ''");
+            rs = stmt.executeQuery(
+                    "SELECT COUNT(*) FROM contacts WHERE linkedin_url IS NOT NULL AND linkedin_url != ''");
             if (rs.next()) {
                 stats.put("contactsWithLinkedIn", rs.getInt(1));
             }
@@ -393,7 +395,8 @@ public class ContactManager {
             }
 
             // Most common first names
-            rs = stmt.executeQuery("SELECT first_name, COUNT(*) as count FROM contacts GROUP BY first_name ORDER BY count DESC LIMIT 5");
+            rs = stmt.executeQuery(
+                    "SELECT first_name, COUNT(*) as count FROM contacts GROUP BY first_name ORDER BY count DESC LIMIT 5");
             List<Map<String, Object>> commonFirstNames = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> nameInfo = new HashMap<>();
@@ -404,7 +407,8 @@ public class ContactManager {
             stats.put("commonFirstNames", commonFirstNames);
 
             // Most common last names
-            rs = stmt.executeQuery("SELECT last_name, COUNT(*) as count FROM contacts GROUP BY last_name ORDER BY count DESC LIMIT 5");
+            rs = stmt.executeQuery(
+                    "SELECT last_name, COUNT(*) as count FROM contacts GROUP BY last_name ORDER BY count DESC LIMIT 5");
             List<Map<String, Object>> commonLastNames = new ArrayList<>();
             while (rs.next()) {
                 Map<String, Object> nameInfo = new HashMap<>();
@@ -415,14 +419,16 @@ public class ContactManager {
             stats.put("commonLastNames", commonLastNames);
 
             // Youngest contact
-            rs = stmt.executeQuery("SELECT first_name, last_name, birth_date FROM contacts ORDER BY birth_date DESC LIMIT 1");
+            rs = stmt.executeQuery(
+                    "SELECT first_name, last_name, birth_date FROM contacts ORDER BY birth_date DESC LIMIT 1");
             if (rs.next()) {
                 stats.put("youngestContact", rs.getString("first_name") + " " + rs.getString("last_name"));
                 stats.put("youngestBirthDate", rs.getDate("birth_date"));
             }
 
             // Oldest contact
-            rs = stmt.executeQuery("SELECT first_name, last_name, birth_date FROM contacts ORDER BY birth_date ASC LIMIT 1");
+            rs = stmt.executeQuery(
+                    "SELECT first_name, last_name, birth_date FROM contacts ORDER BY birth_date ASC LIMIT 1");
             if (rs.next()) {
                 stats.put("oldestContact", rs.getString("first_name") + " " + rs.getString("last_name"));
                 stats.put("oldestBirthDate", rs.getDate("birth_date"));
@@ -435,7 +441,8 @@ public class ContactManager {
             }
 
             // Contacts by birth month
-            rs = stmt.executeQuery("SELECT MONTH(birth_date) as month, COUNT(*) as count FROM contacts GROUP BY MONTH(birth_date) ORDER BY count DESC");
+            rs = stmt.executeQuery(
+                    "SELECT MONTH(birth_date) as month, COUNT(*) as count FROM contacts GROUP BY MONTH(birth_date) ORDER BY count DESC");
             Map<Integer, Integer> birthMonths = new HashMap<>();
             while (rs.next()) {
                 birthMonths.put(rs.getInt("month"), rs.getInt("count"));
@@ -443,7 +450,8 @@ public class ContactManager {
             stats.put("birthMonths", birthMonths);
 
             // Contacts with secondary phone
-            rs = stmt.executeQuery("SELECT COUNT(*) FROM contacts WHERE phone_secondary IS NOT NULL AND phone_secondary != ''");
+            rs = stmt.executeQuery(
+                    "SELECT COUNT(*) FROM contacts WHERE phone_secondary IS NOT NULL AND phone_secondary != ''");
             if (rs.next()) {
                 stats.put("contactsWithSecondaryPhone", rs.getInt(1));
             }
@@ -464,8 +472,8 @@ public class ContactManager {
         String sql = "SELECT COUNT(*) FROM contacts";
 
         try (Connection conn = dbManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
                 return rs.getInt(1);
@@ -487,7 +495,7 @@ public class ContactManager {
         String sql = "SELECT COUNT(*) FROM contacts WHERE email = ?";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
@@ -505,7 +513,7 @@ public class ContactManager {
     /**
      * Checks if an email exists for a different contact (used during updates).
      *
-     * @param email The email to check
+     * @param email            The email to check
      * @param excludeContactId The contact ID to exclude from the check
      * @return true if email exists for another contact, false otherwise
      */
@@ -513,7 +521,7 @@ public class ContactManager {
         String sql = "SELECT COUNT(*) FROM contacts WHERE email = ? AND contact_id != ?";
 
         try (Connection conn = dbManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
             pstmt.setInt(2, excludeContactId);
@@ -527,5 +535,51 @@ public class ContactManager {
         }
 
         return false;
+    }
+
+    /**
+     * This method adds a contact but FORCES it to keep its specific ID.
+     * We use this only for UNDO operations to restore a deleted contact exactly as
+     * it was.
+     */
+    public boolean addContactWithId(Contact contact) {
+        // SQL Query: We include 'contact_id' in the list of columns to fill.
+        // The '?' symbols are placeholders that we will fill safely later.
+        String sql = "INSERT INTO contacts (contact_id, first_name, middle_name, last_name, nickname, " +
+                "phone_primary, phone_secondary, email, linkedin_url, birth_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // try-with-resources: This automatically closes the connection when done.
+        try (Connection conn = dbManager.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // 1. setInt: Fills the first '?' with the OLD ID (Critical Fix)
+            pstmt.setInt(1, contact.getContactId());
+
+            // 2. setString: Fills the text fields safely (Prevents SQL Injection hacking)
+            pstmt.setString(2, contact.getFirstName());
+            pstmt.setString(3, contact.getMiddleName());
+            pstmt.setString(4, contact.getLastName());
+            pstmt.setString(5, contact.getNickname());
+            pstmt.setString(6, contact.getPhonePrimary());
+            pstmt.setString(7, contact.getPhoneSecondary());
+            pstmt.setString(8, contact.getEmail());
+            pstmt.setString(9, contact.getLinkedinUrl());
+
+            // 3. setDate: Fills the date field. We convert Java Date to SQL Date.
+            pstmt.setDate(10, contact.getBirthDate());
+
+            // executeUpdate: Sends the command to the database.
+            // It returns the number of rows affected (should be 1).
+            int rowsAffected = pstmt.executeUpdate();
+
+            // If rows > 0, it means it worked!
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            // If database fails, print the error
+            System.err.println("Undo Failed: " + e.getMessage());
+            return false;
+        }
     }
 }

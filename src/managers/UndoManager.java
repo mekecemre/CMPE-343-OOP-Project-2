@@ -5,7 +5,8 @@ import models.Contact;
 import models.User;
 
 /**
- * UndoManager class providing undo functionality for contact and user operations.
+ * UndoManager class providing undo functionality for contact and user
+ * operations.
  * Implements the Memento pattern to save and restore previous states.
  * Maintains a history of operations that can be undone.
  *
@@ -49,17 +50,16 @@ public class UndoManager {
         /**
          * Constructor for contact-related undo operations.
          *
-         * @param type The type of operation
-         * @param contact The contact snapshot
-         * @param affectedId The ID of the affected entity
+         * @param type        The type of operation
+         * @param contact     The contact snapshot
+         * @param affectedId  The ID of the affected entity
          * @param description A description of the operation
          */
         public UndoOperation(
-            OperationType type,
-            Contact contact,
-            int affectedId,
-            String description
-        ) {
+                OperationType type,
+                Contact contact,
+                int affectedId,
+                String description) {
             this.type = type;
             this.contactSnapshot = contact;
             this.affectedId = affectedId;
@@ -69,17 +69,16 @@ public class UndoManager {
         /**
          * Constructor for user-related undo operations.
          *
-         * @param type The type of operation
-         * @param user The user snapshot
-         * @param affectedId The ID of the affected entity
+         * @param type        The type of operation
+         * @param user        The user snapshot
+         * @param affectedId  The ID of the affected entity
          * @param description A description of the operation
          */
         public UndoOperation(
-            OperationType type,
-            User user,
-            int affectedId,
-            String description
-        ) {
+                OperationType type,
+                User user,
+                int affectedId,
+                String description) {
             this.type = type;
             this.userSnapshot = user;
             this.affectedId = affectedId;
@@ -142,89 +141,78 @@ public class UndoManager {
     /**
      * Records a contact addition operation.
      *
-     * @param contactId The ID of the added contact
+     * @param contactId   The ID of the added contact
      * @param description A description of the operation
      */
     public void recordAddContact(int contactId, String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.ADD_CONTACT,
-                (Contact) null,
-                contactId,
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.ADD_CONTACT,
+                        (Contact) null,
+                        contactId,
+                        description));
     }
 
     /**
      * Records a contact update operation with the previous state.
      *
      * @param previousState The previous state of the contact
-     * @param description A description of the operation
+     * @param description   A description of the operation
      */
     public void recordUpdateContact(Contact previousState, String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.UPDATE_CONTACT,
-                previousState,
-                previousState.getContactId(),
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.UPDATE_CONTACT,
+                        previousState,
+                        previousState.getContactId(),
+                        description));
     }
 
     /**
      * Records a contact deletion operation with the deleted contact's data.
      *
      * @param deletedContact The deleted contact
-     * @param description A description of the operation
+     * @param description    A description of the operation
      */
     public void recordDeleteContact(
-        Contact deletedContact,
-        String description
-    ) {
+            Contact deletedContact,
+            String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.DELETE_CONTACT,
-                deletedContact,
-                deletedContact.getContactId(),
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.DELETE_CONTACT,
+                        deletedContact,
+                        deletedContact.getContactId(),
+                        description));
     }
 
     /**
      * Records a user addition operation.
      *
-     * @param userId The ID of the added user
+     * @param userId      The ID of the added user
      * @param description A description of the operation
      */
     public void recordAddUser(int userId, String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.ADD_USER,
-                (User) null,
-                userId,
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.ADD_USER,
+                        (User) null,
+                        userId,
+                        description));
     }
 
     /**
      * Records a user update operation with the previous state.
      *
      * @param previousState The previous state of the user
-     * @param description A description of the operation
+     * @param description   A description of the operation
      */
     public void recordUpdateUser(User previousState, String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.UPDATE_USER,
-                previousState,
-                previousState.getUserId(),
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.UPDATE_USER,
+                        previousState,
+                        previousState.getUserId(),
+                        description));
     }
 
     /**
@@ -235,13 +223,11 @@ public class UndoManager {
      */
     public void recordDeleteUser(User deletedUser, String description) {
         pushOperation(
-            new UndoOperation(
-                OperationType.DELETE_USER,
-                deletedUser,
-                deletedUser.getUserId(),
-                description
-            )
-        );
+                new UndoOperation(
+                        OperationType.DELETE_USER,
+                        deletedUser,
+                        deletedUser.getUserId(),
+                        description));
     }
 
     /**
@@ -309,14 +295,13 @@ public class UndoManager {
     /**
      * Performs the undo operation for contacts.
      *
-     * @param operation The operation to undo
+     * @param operation      The operation to undo
      * @param contactManager The ContactManager to perform the undo
      * @return true if undo successful, false otherwise
      */
     public boolean undoContactOperation(
-        UndoOperation operation,
-        ContactManager contactManager
-    ) {
+            UndoOperation operation,
+            ContactManager contactManager) {
         if (operation == null || contactManager == null) {
             return false;
         }
@@ -326,8 +311,7 @@ public class UndoManager {
                 case ADD_CONTACT:
                     // Undo add by deleting the contact
                     return contactManager.deleteContact(
-                        operation.getAffectedId()
-                    );
+                            operation.getAffectedId());
                 case UPDATE_CONTACT:
                     // Undo update by restoring previous state
                     Contact previousState = operation.getContactSnapshot();
@@ -339,8 +323,7 @@ public class UndoManager {
                     // Undo delete by re-adding the contact
                     Contact deletedContact = operation.getContactSnapshot();
                     if (deletedContact != null) {
-                        int newId = contactManager.addContact(deletedContact);
-                        return newId > 0;
+                        return contactManager.addContactWithId(deletedContact);
                     }
                     return false;
                 default:
@@ -348,8 +331,7 @@ public class UndoManager {
             }
         } catch (Exception e) {
             System.err.println(
-                "Error during undo operation: " + e.getMessage()
-            );
+                    "Error during undo operation: " + e.getMessage());
             return false;
         }
     }
@@ -357,14 +339,13 @@ public class UndoManager {
     /**
      * Performs the undo operation for users.
      *
-     * @param operation The operation to undo
+     * @param operation   The operation to undo
      * @param userManager The UserManager to perform the undo
      * @return true if undo successful, false otherwise
      */
     public boolean undoUserOperation(
-        UndoOperation operation,
-        UserManager userManager
-    ) {
+            UndoOperation operation,
+            UserManager userManager) {
         if (operation == null || userManager == null) {
             return false;
         }
@@ -379,12 +360,11 @@ public class UndoManager {
                     User previousState = operation.getUserSnapshot();
                     if (previousState != null) {
                         return userManager.updateUser(
-                            previousState.getUserId(),
-                            previousState.getUsername(),
-                            previousState.getName(),
-                            previousState.getSurname(),
-                            previousState.getRole()
-                        );
+                                previousState.getUserId(),
+                                previousState.getUsername(),
+                                previousState.getName(),
+                                previousState.getSurname(),
+                                previousState.getRole());
                     }
                     return false;
                 case DELETE_USER:
@@ -393,12 +373,11 @@ public class UndoManager {
                     if (deletedUser != null) {
                         // Note: Cannot restore exact password hash, would need special handling
                         return userManager.addUser(
-                            deletedUser.getUsername(),
-                            "resetpassword", // Temporary password
-                            deletedUser.getName(),
-                            deletedUser.getSurname(),
-                            deletedUser.getRole()
-                        );
+                                deletedUser.getUsername(),
+                                "resetpassword", // Temporary password
+                                deletedUser.getName(),
+                                deletedUser.getSurname(),
+                                deletedUser.getRole());
                     }
                     return false;
                 default:
@@ -406,8 +385,7 @@ public class UndoManager {
             }
         } catch (Exception e) {
             System.err.println(
-                "Error during undo operation: " + e.getMessage()
-            );
+                    "Error during undo operation: " + e.getMessage());
             return false;
         }
     }
