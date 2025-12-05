@@ -152,11 +152,17 @@ FROM contacts;
 -- This part gives the Java code permission to access the database
 -- ============================================================================
 
--- 1. Just give the permissions (The user already exists)
+-- Create user for the application (REQUIRED by project specs)
+CREATE USER 'myuser'@'localhost' IDENTIFIED BY '1234';
+
+-- Grant privileges on the contact_management database (REQUIRED)
 GRANT ALL PRIVILEGES ON contact_management.* TO 'myuser'@'localhost';
 
--- 2. Save the changes
+-- Apply the changes (REQUIRED)
 FLUSH PRIVILEGES;
+
+-- Exit MySQL
+EXIT;
 
 -- ============================================================================
 -- END OF SQL FILE
