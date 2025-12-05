@@ -1,13 +1,13 @@
 package roles;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Scanner;
 import managers.DatabaseManager;
 import models.Contact;
 import models.User;
 import utils.ColorUtils;
 import utils.ValidationUtils;
-
-import java.sql.Date;
-import java.util.Scanner;
 
 /**
  * JuniorDeveloper role class extending Tester.
@@ -26,7 +26,11 @@ public class JuniorDeveloper extends Tester {
      * @param dbManager The database manager instance
      * @param scanner The scanner for user input
      */
-    public JuniorDeveloper(User user, DatabaseManager dbManager, Scanner scanner) {
+    public JuniorDeveloper(
+        User user,
+        DatabaseManager dbManager,
+        Scanner scanner
+    ) {
         super(user, dbManager, scanner);
     }
 
@@ -37,17 +41,49 @@ public class JuniorDeveloper extends Tester {
 
     @Override
     protected void displayMenuOptions() {
-        System.out.println(ColorUtils.colorize("  📋 MAIN MENU", ColorUtils.BRIGHT_YELLOW));
+        System.out.println(
+            ColorUtils.colorize("  📋 MAIN MENU", ColorUtils.BRIGHT_YELLOW)
+        );
         System.out.println();
-        System.out.println(ColorUtils.colorize("  1. List All Contacts", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  2. Search Contacts by Single Field", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  3. Search Contacts by Multiple Fields", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  4. Advanced Search (User-Defined Query)", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  5. Sort Contact Results", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  6. Update Existing Contact", ColorUtils.BRIGHT_GREEN));
-        System.out.println(ColorUtils.colorize("  7. Undo Last Operation", ColorUtils.YELLOW));
-        System.out.println(ColorUtils.colorize("  8. Change Password", ColorUtils.WHITE));
-        System.out.println(ColorUtils.colorize("  9. Logout", ColorUtils.WHITE));
+        System.out.println(
+            ColorUtils.colorize("  1. List All Contacts", ColorUtils.WHITE)
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "  2. Search Contacts by Single Field",
+                ColorUtils.WHITE
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "  3. Search Contacts by Multiple Fields",
+                ColorUtils.WHITE
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "  4. Advanced Search (User-Defined Query)",
+                ColorUtils.WHITE
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize("  5. Sort Contact Results", ColorUtils.WHITE)
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "  6. Update Existing Contact",
+                ColorUtils.BRIGHT_GREEN
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize("  7. Undo Last Operation", ColorUtils.YELLOW)
+        );
+        System.out.println(
+            ColorUtils.colorize("  8. Change Password", ColorUtils.WHITE)
+        );
+        System.out.println(
+            ColorUtils.colorize("  9. Logout", ColorUtils.WHITE)
+        );
     }
 
     @Override
@@ -91,176 +127,391 @@ public class JuniorDeveloper extends Tester {
      * Demonstrates polymorphism by extending base class functionality.
      */
     protected void updateContact() {
-        ColorUtils.clearScreen();
-        System.out.println(ColorUtils.colorize("╔════════════════════════════════════════════════════════════╗", ColorUtils.BRIGHT_GREEN));
-        System.out.println(ColorUtils.colorize("║                  UPDATE CONTACT                            ║", ColorUtils.BRIGHT_GREEN));
-        System.out.println(ColorUtils.colorize("╚════════════════════════════════════════════════════════════╝", ColorUtils.BRIGHT_GREEN));
-        System.out.println();
+        while (true) {
+            ColorUtils.clearScreen();
+            System.out.println(
+                ColorUtils.colorize(
+                    "╔════════════════════════════════════════════════════════════╗",
+                    ColorUtils.BRIGHT_GREEN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "║                  UPDATE CONTACT                            ║",
+                    ColorUtils.BRIGHT_GREEN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "╚════════════════════════════════════════════════════════════╝",
+                    ColorUtils.BRIGHT_GREEN
+                )
+            );
+            System.out.println();
 
-        System.out.print(ColorUtils.colorize("Enter Contact ID to update (or 0 to cancel): ", ColorUtils.CYAN));
-        String idInput = scanner.nextLine().trim();
+            // Show all contacts first
+            List<Contact> allContacts = contactManager.getAllContacts();
+            if (allContacts.isEmpty()) {
+                displayInfo("No contacts available to update.");
+                pauseScreen();
+                return;
+            }
 
-        if (idInput.equals("0")) {
-            displayInfo("Update cancelled.");
+            System.out.println(
+                ColorUtils.colorize("Available contacts:", ColorUtils.YELLOW)
+            );
+            System.out.println();
+            displayContactList(allContacts);
+            System.out.println();
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "Enter Contact ID to update (or 0 to cancel): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String idInput = scanner.nextLine().trim();
+
+            if (idInput.equals("0")) {
+                displayInfo("Update cancelled.");
+                pauseScreen();
+                return;
+            }
+
+            if (!isValidInteger(idInput)) {
+                displayError(
+                    "Invalid Contact ID! Must be a number. Please try again."
+                );
+                pauseScreen();
+                continue;
+            }
+
+            int contactId = Integer.parseInt(idInput);
+            Contact existingContact = contactManager.getContactById(contactId);
+
+            if (existingContact == null) {
+                displayError(
+                    "Contact with ID " +
+                        contactId +
+                        " not found! Please try again."
+                );
+                pauseScreen();
+                continue;
+            }
+
+            // Display current contact details
+            System.out.println();
+            System.out.println(
+                ColorUtils.colorize(
+                    "Current Contact Information:",
+                    ColorUtils.YELLOW
+                )
+            );
+            displayContactDetails(existingContact);
+
+            // Save previous state for undo
+            Contact previousState = cloneContact(existingContact);
+
+            System.out.println(
+                ColorUtils.colorize(
+                    "Enter new values (press Enter to keep current value):",
+                    ColorUtils.YELLOW
+                )
+            );
+            System.out.println();
+
+            // First Name
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "First Name [" + existingContact.getFirstName() + "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String firstName = scanner.nextLine().trim();
+                if (firstName.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidName(firstName)) {
+                    displayError(
+                        ValidationUtils.getNameError() + " Please try again."
+                    );
+                    continue;
+                }
+                existingContact.setFirstName(firstName);
+                break;
+            }
+
+            // Middle Name
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Middle Name [" +
+                            (existingContact.getMiddleName() != null
+                                ? existingContact.getMiddleName()
+                                : "N/A") +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String middleName = scanner.nextLine().trim();
+                if (middleName.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidName(middleName)) {
+                    displayError(
+                        ValidationUtils.getNameError() + " Please try again."
+                    );
+                    continue;
+                }
+                existingContact.setMiddleName(middleName);
+                break;
+            }
+
+            // Last Name
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Last Name [" + existingContact.getLastName() + "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String lastName = scanner.nextLine().trim();
+                if (lastName.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidName(lastName)) {
+                    displayError(
+                        ValidationUtils.getNameError() + " Please try again."
+                    );
+                    continue;
+                }
+                existingContact.setLastName(lastName);
+                break;
+            }
+
+            // Nickname
+            System.out.print(
+                ColorUtils.colorize(
+                    "Nickname [" +
+                        (existingContact.getNickname() != null
+                            ? existingContact.getNickname()
+                            : "N/A") +
+                        "]: ",
+                    ColorUtils.CYAN
+                )
+            );
+            String nickname = scanner.nextLine().trim();
+            if (!nickname.isEmpty()) {
+                existingContact.setNickname(nickname);
+            }
+
+            // Primary Phone
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Primary Phone " +
+                            ValidationUtils.getPhoneFormatHint() +
+                            " [" +
+                            existingContact.getPhonePrimary() +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String phonePrimary = scanner.nextLine().trim();
+                if (phonePrimary.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidPhone(phonePrimary)) {
+                    displayError(
+                        "Invalid phone format! " +
+                            ValidationUtils.getPhoneFormatHint()
+                    );
+                    continue;
+                }
+                existingContact.setPhonePrimary(
+                    ValidationUtils.cleanPhone(phonePrimary)
+                );
+                break;
+            }
+
+            // Secondary Phone
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Secondary Phone " +
+                            ValidationUtils.getPhoneFormatHint() +
+                            " [" +
+                            (existingContact.getPhoneSecondary() != null
+                                ? existingContact.getPhoneSecondary()
+                                : "N/A") +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String phoneSecondary = scanner.nextLine().trim();
+                if (phoneSecondary.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidPhone(phoneSecondary)) {
+                    displayError(
+                        "Invalid phone format! " +
+                            ValidationUtils.getPhoneFormatHint()
+                    );
+                    continue;
+                }
+                existingContact.setPhoneSecondary(
+                    ValidationUtils.cleanPhone(phoneSecondary)
+                );
+                break;
+            }
+
+            // Email
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Email " +
+                            ValidationUtils.getEmailFormatHint() +
+                            " [" +
+                            existingContact.getEmail() +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String email = scanner.nextLine().trim();
+                if (email.isEmpty()) {
+                    break; // Keep current value
+                }
+
+                // Convert to lowercase for consistency
+                email = email.toLowerCase();
+
+                if (!ValidationUtils.isValidEmail(email)) {
+                    displayError(
+                        "Invalid email format! " +
+                            ValidationUtils.getEmailFormatHint()
+                    );
+                    continue;
+                }
+                if (
+                    contactManager.emailExistsForOtherContact(email, contactId)
+                ) {
+                    displayError(
+                        "Email already exists for another contact! Please use a different email."
+                    );
+                    continue;
+                }
+                existingContact.setEmail(email);
+                break;
+            }
+
+            // LinkedIn URL
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "LinkedIn URL [" +
+                            (existingContact.getLinkedinUrl() != null
+                                ? existingContact.getLinkedinUrl()
+                                : "N/A") +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String linkedinUrl = scanner.nextLine().trim();
+                if (linkedinUrl.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidLinkedInUrl(linkedinUrl)) {
+                    displayError(
+                        ValidationUtils.getLinkedInError() +
+                            " Please try again."
+                    );
+                    continue;
+                }
+                existingContact.setLinkedinUrl(linkedinUrl);
+                break;
+            }
+
+            // Birth Date
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Birth Date " +
+                            ValidationUtils.getDateFormatHint() +
+                            " [" +
+                            existingContact.getBirthDate() +
+                            "]: ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String birthDateStr = scanner.nextLine().trim();
+                if (birthDateStr.isEmpty()) {
+                    break; // Keep current value
+                }
+                if (!ValidationUtils.isValidBirthDate(birthDateStr)) {
+                    displayError(
+                        ValidationUtils.getBirthDateError() +
+                            " " +
+                            ValidationUtils.getDateFormatHint()
+                    );
+                    continue;
+                }
+                existingContact.setBirthDate(Date.valueOf(birthDateStr));
+                break;
+            }
+
+            // Confirm update with validation
+            System.out.println();
+            String confirm = null;
+            while (confirm == null) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Confirm update? (yes/no): ",
+                        ColorUtils.YELLOW
+                    )
+                );
+                String input = scanner.nextLine().trim().toLowerCase();
+
+                if (ValidationUtils.isValidYesNo(input)) {
+                    confirm = input;
+                } else {
+                    displayError("Invalid input! Please enter 'yes' or 'no'.");
+                }
+            }
+
+            if (!ValidationUtils.yesNoToBoolean(confirm)) {
+                displayInfo("Update cancelled.");
+                pauseScreen();
+                continue;
+            }
+
+            // Perform update
+            if (contactManager.updateContact(existingContact)) {
+                // Record for undo
+                undoManager.recordUpdateContact(
+                    previousState,
+                    "Updated contact: " + existingContact.getFullName()
+                );
+                displaySuccess("Contact updated successfully!");
+            } else {
+                displayError("Failed to update contact. Please try again.");
+                pauseScreen();
+                continue;
+            }
+
             pauseScreen();
-            return;
-        }
 
-        if (!isValidInteger(idInput)) {
-            displayError("Invalid Contact ID! Must be a number.");
-            pauseScreen();
-            return;
-        }
-
-        int contactId = Integer.parseInt(idInput);
-        Contact existingContact = contactManager.getContactById(contactId);
-
-        if (existingContact == null) {
-            displayError("Contact with ID " + contactId + " not found!");
-            pauseScreen();
-            return;
-        }
-
-        // Display current contact details
-        System.out.println();
-        System.out.println(ColorUtils.colorize("Current Contact Information:", ColorUtils.YELLOW));
-        displayContactDetails(existingContact);
-
-        // Save previous state for undo
-        Contact previousState = cloneContact(existingContact);
-
-        System.out.println(ColorUtils.colorize("Enter new values (press Enter to keep current value):", ColorUtils.YELLOW));
-        System.out.println();
-
-        // First Name
-        System.out.print(ColorUtils.colorize("First Name [" + existingContact.getFirstName() + "]: ", ColorUtils.CYAN));
-        String firstName = scanner.nextLine().trim();
-        if (!firstName.isEmpty()) {
-            if (!ValidationUtils.isValidName(firstName)) {
-                displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
+            System.out.print(
+                ColorUtils.colorize(
+                    "\nUpdate another contact? (y/n): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String again = scanner.nextLine().trim().toLowerCase();
+            if (!again.equals("y")) {
+                break;
             }
-            existingContact.setFirstName(firstName);
         }
-
-        // Middle Name
-        System.out.print(ColorUtils.colorize("Middle Name [" + (existingContact.getMiddleName() != null ? existingContact.getMiddleName() : "N/A") + "]: ", ColorUtils.CYAN));
-        String middleName = scanner.nextLine().trim();
-        if (!middleName.isEmpty()) {
-            if (!ValidationUtils.isValidName(middleName)) {
-                displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setMiddleName(middleName);
-        }
-
-        // Last Name
-        System.out.print(ColorUtils.colorize("Last Name [" + existingContact.getLastName() + "]: ", ColorUtils.CYAN));
-        String lastName = scanner.nextLine().trim();
-        if (!lastName.isEmpty()) {
-            if (!ValidationUtils.isValidName(lastName)) {
-                displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setLastName(lastName);
-        }
-
-        // Nickname
-        System.out.print(ColorUtils.colorize("Nickname [" + (existingContact.getNickname() != null ? existingContact.getNickname() : "N/A") + "]: ", ColorUtils.CYAN));
-        String nickname = scanner.nextLine().trim();
-        if (!nickname.isEmpty()) {
-            existingContact.setNickname(nickname);
-        }
-
-        // Primary Phone
-        System.out.print(ColorUtils.colorize("Primary Phone [" + existingContact.getPhonePrimary() + "]: ", ColorUtils.CYAN));
-        String phonePrimary = scanner.nextLine().trim();
-        if (!phonePrimary.isEmpty()) {
-            if (!ValidationUtils.isValidPhone(phonePrimary)) {
-                displayError(ValidationUtils.getPhoneError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setPhonePrimary(ValidationUtils.cleanPhone(phonePrimary));
-        }
-
-        // Secondary Phone
-        System.out.print(ColorUtils.colorize("Secondary Phone [" + (existingContact.getPhoneSecondary() != null ? existingContact.getPhoneSecondary() : "N/A") + "]: ", ColorUtils.CYAN));
-        String phoneSecondary = scanner.nextLine().trim();
-        if (!phoneSecondary.isEmpty()) {
-            if (!ValidationUtils.isValidPhone(phoneSecondary)) {
-                displayError(ValidationUtils.getPhoneError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setPhoneSecondary(ValidationUtils.cleanPhone(phoneSecondary));
-        }
-
-        // Email
-        System.out.print(ColorUtils.colorize("Email [" + existingContact.getEmail() + "]: ", ColorUtils.CYAN));
-        String email = scanner.nextLine().trim();
-        if (!email.isEmpty()) {
-            if (!ValidationUtils.isValidEmail(email)) {
-                displayError(ValidationUtils.getEmailError());
-                pauseScreen();
-                return;
-            }
-            if (contactManager.emailExistsForOtherContact(email, contactId)) {
-                displayError("Email already exists for another contact!");
-                pauseScreen();
-                return;
-            }
-            existingContact.setEmail(email);
-        }
-
-        // LinkedIn URL
-        System.out.print(ColorUtils.colorize("LinkedIn URL [" + (existingContact.getLinkedinUrl() != null ? existingContact.getLinkedinUrl() : "N/A") + "]: ", ColorUtils.CYAN));
-        String linkedinUrl = scanner.nextLine().trim();
-        if (!linkedinUrl.isEmpty()) {
-            if (!ValidationUtils.isValidLinkedInUrl(linkedinUrl)) {
-                displayError(ValidationUtils.getLinkedInError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setLinkedinUrl(linkedinUrl);
-        }
-
-        // Birth Date
-        System.out.print(ColorUtils.colorize("Birth Date (YYYY-MM-DD) [" + existingContact.getBirthDate() + "]: ", ColorUtils.CYAN));
-        String birthDateStr = scanner.nextLine().trim();
-        if (!birthDateStr.isEmpty()) {
-            if (!ValidationUtils.isValidBirthDate(birthDateStr)) {
-                displayError(ValidationUtils.getBirthDateError());
-                pauseScreen();
-                return;
-            }
-            existingContact.setBirthDate(Date.valueOf(birthDateStr));
-        }
-
-        // Confirm update
-        System.out.println();
-        System.out.print(ColorUtils.colorize("Confirm update? (yes/no): ", ColorUtils.YELLOW));
-        String confirm = scanner.nextLine().trim().toLowerCase();
-
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
-            displayInfo("Update cancelled.");
-            pauseScreen();
-            return;
-        }
-
-        // Perform update
-        if (contactManager.updateContact(existingContact)) {
-            // Record for undo
-            undoManager.recordUpdateContact(previousState, "Updated contact: " + existingContact.getFullName());
-            displaySuccess("Contact updated successfully!");
-        } else {
-            displayError("Failed to update contact. Please try again.");
-        }
-
-        pauseScreen();
     }
 
     /**
@@ -291,9 +542,24 @@ public class JuniorDeveloper extends Tester {
      */
     protected void undoLastOperation() {
         ColorUtils.clearScreen();
-        System.out.println(ColorUtils.colorize("╔════════════════════════════════════════════════════════════╗", ColorUtils.YELLOW));
-        System.out.println(ColorUtils.colorize("║                    UNDO OPERATION                          ║", ColorUtils.YELLOW));
-        System.out.println(ColorUtils.colorize("╚════════════════════════════════════════════════════════════╝", ColorUtils.YELLOW));
+        System.out.println(
+            ColorUtils.colorize(
+                "╔════════════════════════════════════════════════════════════╗",
+                ColorUtils.YELLOW
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "║                    UNDO OPERATION                          ║",
+                ColorUtils.YELLOW
+            )
+        );
+        System.out.println(
+            ColorUtils.colorize(
+                "╚════════════════════════════════════════════════════════════╝",
+                ColorUtils.YELLOW
+            )
+        );
         System.out.println();
 
         if (!undoManager.canUndo()) {
@@ -302,11 +568,17 @@ public class JuniorDeveloper extends Tester {
             return;
         }
 
-        managers.UndoManager.UndoOperation lastOp = undoManager.peekLastOperation();
-        System.out.println(ColorUtils.colorize("Last operation: ", ColorUtils.CYAN) + lastOp.getDescription());
+        managers.UndoManager.UndoOperation lastOp =
+            undoManager.peekLastOperation();
+        System.out.println(
+            ColorUtils.colorize("Last operation: ", ColorUtils.CYAN) +
+                lastOp.getDescription()
+        );
         System.out.println();
 
-        System.out.print(ColorUtils.colorize("Confirm undo? (yes/no): ", ColorUtils.YELLOW));
+        System.out.print(
+            ColorUtils.colorize("Confirm undo? (yes/no): ", ColorUtils.YELLOW)
+        );
         String confirm = scanner.nextLine().trim().toLowerCase();
 
         if (!confirm.equals("yes") && !confirm.equals("y")) {
@@ -315,7 +587,8 @@ public class JuniorDeveloper extends Tester {
             return;
         }
 
-        managers.UndoManager.UndoOperation operation = undoManager.popLastOperation();
+        managers.UndoManager.UndoOperation operation =
+            undoManager.popLastOperation();
 
         if (undoManager.undoContactOperation(operation, contactManager)) {
             displaySuccess("Operation undone successfully!");

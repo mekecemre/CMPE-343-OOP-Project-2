@@ -18,7 +18,7 @@ public class ValidationUtils {
 
     // Regular expression patterns
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{3,}$"
     );
 
     private static final Pattern PHONE_PATTERN = Pattern.compile(
@@ -208,7 +208,11 @@ public class ValidationUtils {
      * @param maxLength The maximum length
      * @return true if string is within range, false otherwise
      */
-    public static boolean isWithinLength(String str, int minLength, int maxLength) {
+    public static boolean isWithinLength(
+        String str,
+        int minLength,
+        int maxLength
+    ) {
         return hasMinLength(str, minLength) && hasMaxLength(str, maxLength);
     }
 
@@ -255,8 +259,11 @@ public class ValidationUtils {
             return false;
         }
         String trimmed = username.trim();
-        return trimmed.length() >= 2 && trimmed.length() <= 20
-               && trimmed.matches("^[a-zA-Z0-9_-]+$");
+        return (
+            trimmed.length() >= 2 &&
+            trimmed.length() <= 20 &&
+            trimmed.matches("^[a-zA-Z0-9_-]+$")
+        );
     }
 
     /**
@@ -281,12 +288,14 @@ public class ValidationUtils {
             return false;
         }
         String upperRole = role.trim().toUpperCase();
-        return upperRole.equals("TESTER")
-               || upperRole.equals("JUNIOR DEVELOPER")
-               || upperRole.equals("JUNIOR_DEVELOPER")
-               || upperRole.equals("SENIOR DEVELOPER")
-               || upperRole.equals("SENIOR_DEVELOPER")
-               || upperRole.equals("MANAGER");
+        return (
+            upperRole.equals("TESTER") ||
+            upperRole.equals("JUNIOR DEVELOPER") ||
+            upperRole.equals("JUNIOR_DEVELOPER") ||
+            upperRole.equals("SENIOR DEVELOPER") ||
+            upperRole.equals("SENIOR_DEVELOPER") ||
+            upperRole.equals("MANAGER")
+        );
     }
 
     /**
@@ -379,12 +388,69 @@ public class ValidationUtils {
             return false;
         }
 
-        int[] daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int[] daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
         if (month == 2 && isLeapYear(year)) {
             return day <= 29;
         }
 
         return day <= daysInMonth[month - 1];
+    }
+
+    /**
+     * Gets format hint for email input.
+     *
+     * @return Email format hint string
+     */
+    public static String getEmailFormatHint() {
+        return "(format: name.surname@email.com - use lowercase)";
+    }
+
+    /**
+     * Gets format hint for phone input.
+     *
+     * @return Phone format hint string
+     */
+    public static String getPhoneFormatHint() {
+        return "(format: 10-11 digits, no spaces or separators, e.g., 05551234567)";
+    }
+
+    /**
+     * Gets format hint for date input.
+     *
+     * @return Date format hint string
+     */
+    public static String getDateFormatHint() {
+        return "(format: YYYY-MM-DD, e.g., 1990-05-15)";
+    }
+
+    /**
+     * Validates yes/no input.
+     *
+     * @param input The input string
+     * @return true if valid (yes/no/y/n), false otherwise
+     */
+    public static boolean isValidYesNo(String input) {
+        if (input == null) {
+            return false;
+        }
+        String lower = input.trim().toLowerCase();
+        return (
+            lower.equals("yes") ||
+            lower.equals("no") ||
+            lower.equals("y") ||
+            lower.equals("n")
+        );
+    }
+
+    /**
+     * Converts yes/no input to boolean.
+     *
+     * @param input The input string (yes/no/y/n)
+     * @return true for yes/y, false for no/n
+     */
+    public static boolean yesNoToBoolean(String input) {
+        String lower = input.trim().toLowerCase();
+        return lower.equals("yes") || lower.equals("y");
     }
 }
