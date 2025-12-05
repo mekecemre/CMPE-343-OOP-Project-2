@@ -156,7 +156,8 @@ FROM contacts;
 CREATE USER 'myuser'@'localhost' IDENTIFIED BY '1234';
 
 -- Grant privileges on the contact_management database (REQUIRED)
-GRANT ALL PRIVILEGES ON contact_management.* TO 'myuser'@'localhost';
+GRANT ALL PRIVILEGES ON contact_management.* TO 'myuser'@'localhost' WITH GRANT OPTION;
+GRANT RELOAD ON . TO 'myuser'@'localhost';
 
 -- Apply the changes (REQUIRED)
 FLUSH PRIVILEGES;
