@@ -87,10 +87,14 @@ Expected output if verification is successful:
 
 ```cmd
 compile.bat
+or
+.\compile.bat
 ```
 
 ```cmd 
 run.bat
+or
+.\run.bat
 ```
 ## Instructions For Arch Linux
 ### Install MariaDB and Start the Service
