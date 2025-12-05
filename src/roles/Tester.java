@@ -304,133 +304,28 @@ public class Tester extends BaseRole {
      * Searches contacts by a single field.
      */
     protected void searchBySingleField() {
-        ColorUtils.clearScreen();
-        System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "║              SEARCH BY SINGLE FIELD                        ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println();
-
-        System.out.println(
-            ColorUtils.colorize("Available fields:", ColorUtils.YELLOW)
-        );
-        System.out.println("  1. First Name");
-        System.out.println("  2. Last Name");
-        System.out.println("  3. Email");
-        System.out.println("  4. Phone (Primary)");
-        System.out.println("  5. Nickname");
-        System.out.println("  6. LinkedIn URL");
-        System.out.println("  0. Cancel");
-        System.out.println();
-
-        System.out.print(
-            ColorUtils.colorize("Select field to search: ", ColorUtils.CYAN)
-        );
-        String fieldChoice = scanner.nextLine().trim();
-
-        if (fieldChoice.equals("0")) {
-            return;
-        }
-
-        String fieldName = getFieldNameFromChoice(fieldChoice);
-        if (fieldName == null) {
-            displayError("Invalid field selection!");
-            pauseScreen();
-            return;
-        }
-
-        System.out.print(
-            ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN)
-        );
-        String searchValue = scanner.nextLine().trim();
-
-        if (searchValue.isEmpty()) {
-            displayError("Search value cannot be empty!");
-            pauseScreen();
-            return;
-        }
-
-        System.out.print(
-            ColorUtils.colorize(
-                "Search type (1=Exact, 2=Partial): ",
-                ColorUtils.CYAN
-            )
-        );
-        String matchType = scanner.nextLine().trim();
-
-        boolean exactMatch = matchType.equals("1");
-
-        List<Contact> results = contactManager.searchByField(
-            fieldName,
-            searchValue,
-            exactMatch
-        );
-
-        System.out.println();
-        if (results.isEmpty()) {
-            displayInfo("No contacts found matching your search.");
-        } else {
-            displaySuccess("Found " + results.size() + " contact(s):");
+        while (true) {
+            ColorUtils.clearScreen();
+            System.out.println(
+                ColorUtils.colorize(
+                    "╔════════════════════════════════════════════════════════════╗",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "║              SEARCH BY SINGLE FIELD                        ║",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "╚════════════════════════════════════════════════════════════╝",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
             System.out.println();
-            displayContactList(results);
-        }
 
-        pauseScreen();
-    }
-
-    /**
-     * Searches contacts by multiple fields.
-     */
-    protected void searchByMultipleFields() {
-        ColorUtils.clearScreen();
-        System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "║             SEARCH BY MULTIPLE FIELDS                      ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println();
-
-        System.out.print(
-            ColorUtils.colorize("Logical operator (AND/OR): ", ColorUtils.CYAN)
-        );
-        String logicalOp = scanner.nextLine().trim().toUpperCase();
-
-        if (!logicalOp.equals("AND") && !logicalOp.equals("OR")) {
-            logicalOp = "AND";
-        }
-
-        SearchCriteria criteria = new SearchCriteria(logicalOp);
-
-        boolean addingCriteria = true;
-        while (addingCriteria) {
-            System.out.println();
             System.out.println(
                 ColorUtils.colorize("Available fields:", ColorUtils.YELLOW)
             );
@@ -439,25 +334,23 @@ public class Tester extends BaseRole {
             System.out.println("  3. Email");
             System.out.println("  4. Phone (Primary)");
             System.out.println("  5. Nickname");
-            System.out.println("  6. Birth Date");
+            System.out.println("  6. LinkedIn URL");
+            System.out.println("  0. Cancel");
             System.out.println();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "Select field (or 0 to finish): ",
-                    ColorUtils.CYAN
-                )
+                ColorUtils.colorize("Select field to search: ", ColorUtils.CYAN)
             );
             String fieldChoice = scanner.nextLine().trim();
 
             if (fieldChoice.equals("0")) {
-                addingCriteria = false;
-                continue;
+                return;
             }
 
             String fieldName = getFieldNameFromChoice(fieldChoice);
             if (fieldName == null) {
-                displayError("Invalid field selection!");
+                displayError("Invalid field selection! Please try again.");
+                pauseScreen();
                 continue;
             }
 
@@ -468,316 +361,524 @@ public class Tester extends BaseRole {
 
             if (searchValue.isEmpty()) {
                 displayError("Search value cannot be empty!");
+                pauseScreen();
                 continue;
             }
 
             System.out.print(
                 ColorUtils.colorize(
-                    "Match type (1=Exact, 2=Partial): ",
+                    "Search type (1=Exact, 2=Partial): ",
                     ColorUtils.CYAN
                 )
             );
             String matchType = scanner.nextLine().trim();
 
-            if (matchType.equals("1")) {
-                criteria.addExactMatch(fieldName, searchValue);
-            } else {
-                criteria.addPartialMatch(fieldName, searchValue);
+            if (!matchType.equals("1") && !matchType.equals("2")) {
+                displayError("Invalid match type! Please enter 1 or 2.");
+                pauseScreen();
+                continue;
             }
 
-            displaySuccess("Criterion added!");
+            boolean exactMatch = matchType.equals("1");
 
-            if (criteria.getCriteriaCount() >= 2) {
+            List<Contact> results = contactManager.searchByField(
+                fieldName,
+                searchValue,
+                exactMatch
+            );
+
+            System.out.println();
+            if (results.isEmpty()) {
+                displayInfo("No contacts found matching your search.");
+            } else {
+                displaySuccess("Found " + results.size() + " contact(s):");
+                System.out.println();
+                displayContactList(results);
+            }
+
+            pauseScreen();
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "\nPerform another search? (y/n): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String again = scanner.nextLine().trim().toLowerCase();
+            if (!again.equals("y")) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Searches contacts by multiple fields.
+     */
+    protected void searchByMultipleFields() {
+        while (true) {
+            ColorUtils.clearScreen();
+            System.out.println(
+                ColorUtils.colorize(
+                    "╔════════════════════════════════════════════════════════════╗",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "║             SEARCH BY MULTIPLE FIELDS                      ║",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "╚════════════════════════════════════════════════════════════╝",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println();
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "Logical operator (AND/OR): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String logicalOp = scanner.nextLine().trim().toUpperCase();
+
+            if (!logicalOp.equals("AND") && !logicalOp.equals("OR")) {
+                displayError("Invalid operator! Please enter AND or OR.");
+                pauseScreen();
+                continue;
+            }
+
+            SearchCriteria criteria = new SearchCriteria(logicalOp);
+            boolean addingCriteria = true;
+            while (addingCriteria) {
+                System.out.println();
+                System.out.println(
+                    ColorUtils.colorize("Available fields:", ColorUtils.YELLOW)
+                );
+                System.out.println("  1. First Name");
+                System.out.println("  2. Last Name");
+                System.out.println("  3. Email");
+                System.out.println("  4. Phone (Primary)");
+                System.out.println("  5. Nickname");
+                System.out.println("  6. Birth Date");
+                System.out.println();
+
                 System.out.print(
                     ColorUtils.colorize(
-                        "Add another criterion? (y/n): ",
+                        "Select field (or 0 to finish): ",
                         ColorUtils.CYAN
                     )
                 );
-                String more = scanner.nextLine().trim().toLowerCase();
-                if (!more.equals("y")) {
-                    addingCriteria = false;
+                String fieldChoice = scanner.nextLine().trim();
+
+                if (fieldChoice.equals("0")) {
+                    break;
+                }
+
+                String fieldName = getFieldNameFromChoice(fieldChoice);
+                if (fieldName == null) {
+                    displayError("Invalid field selection! Please try again.");
+                    continue;
+                }
+
+                System.out.print(
+                    ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN)
+                );
+                String searchValue = scanner.nextLine().trim();
+
+                if (searchValue.isEmpty()) {
+                    displayError(
+                        "Search value cannot be empty! Please try again."
+                    );
+                    continue;
+                }
+
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Match type (1=Exact, 2=Partial): ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String matchType = scanner.nextLine().trim();
+
+                if (!matchType.equals("1") && !matchType.equals("2")) {
+                    displayError("Invalid match type! Please enter 1 or 2.");
+                    continue;
+                }
+
+                if (matchType.equals("1")) {
+                    criteria.addExactMatch(fieldName, searchValue);
+                } else {
+                    criteria.addPartialMatch(fieldName, searchValue);
+                }
+
+                displaySuccess("Criterion added!");
+
+                if (criteria.getCriteriaCount() >= 2) {
+                    System.out.print(
+                        ColorUtils.colorize(
+                            "Add another criterion? (y/n): ",
+                            ColorUtils.CYAN
+                        )
+                    );
+                    String more = scanner.nextLine().trim().toLowerCase();
+                    if (!more.equals("y")) {
+                        addingCriteria = false;
+                    }
                 }
             }
-        }
 
-        if (!criteria.hasCriteria()) {
-            displayWarning("No search criteria specified!");
-            pauseScreen();
-            return;
-        }
+            if (criteria.getCriteriaCount() < 2) {
+                displayError("Need at least 2 search criteria!");
+                pauseScreen();
+                continue;
+            }
 
-        List<Contact> results = contactManager.searchByCriteria(criteria);
+            List<Contact> results = contactManager.searchByCriteria(criteria);
 
-        System.out.println();
-        System.out.println(
-            ColorUtils.colorize(
-                "Search criteria: " + criteria.toString(),
-                ColorUtils.YELLOW
-            )
-        );
-        System.out.println();
-
-        if (results.isEmpty()) {
-            displayInfo("No contacts found matching your search.");
-        } else {
-            displaySuccess("Found " + results.size() + " contact(s):");
             System.out.println();
-            displayContactList(results);
-        }
+            System.out.println(
+                ColorUtils.colorize(
+                    "Search criteria: " + criteria.toString(),
+                    ColorUtils.YELLOW
+                )
+            );
+            System.out.println();
 
-        pauseScreen();
+            if (results.isEmpty()) {
+                displayInfo("No contacts found matching your search.");
+            } else {
+                displaySuccess("Found " + results.size() + " contact(s):");
+                System.out.println();
+                displayContactList(results);
+            }
+
+            pauseScreen();
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "\nPerform another search? (y/n): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String again = scanner.nextLine().trim().toLowerCase();
+            if (!again.equals("y")) {
+                break;
+            }
+        }
     }
 
     /**
      * Advanced search with user-defined multi-field queries.
      */
     protected void advancedSearch() {
-        ColorUtils.clearScreen();
-        System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "║                  ADVANCED SEARCH                           ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println();
+        while (true) {
+            ColorUtils.clearScreen();
+            System.out.println(
+                ColorUtils.colorize(
+                    "╔════════════════════════════════════════════════════════════╗",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "║                  ADVANCED SEARCH                           ║",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "╚════════════════════════════════════════════════════════════╝",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println();
 
-        System.out.println(
-            ColorUtils.colorize(
-                "Build a custom search query:",
-                ColorUtils.YELLOW
-            )
-        );
-        System.out.println();
+            System.out.println(
+                ColorUtils.colorize(
+                    "Build a custom search query:",
+                    ColorUtils.YELLOW
+                )
+            );
+            System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize(
-                "Use AND or OR operator? (AND/OR): ",
-                ColorUtils.CYAN
-            )
-        );
-        String operator = scanner.nextLine().trim().toUpperCase();
+            System.out.print(
+                ColorUtils.colorize(
+                    "Use AND or OR operator? (AND/OR): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String operator = scanner.nextLine().trim().toUpperCase();
 
-        if (!operator.equals("AND") && !operator.equals("OR")) {
-            operator = "AND";
-        }
+            if (!operator.equals("AND") && !operator.equals("OR")) {
+                displayError("Invalid operator! Please enter AND or OR.");
+                pauseScreen();
+                continue;
+            }
 
-        SearchCriteria criteria = new SearchCriteria(operator);
+            SearchCriteria criteria = new SearchCriteria(operator);
 
-        System.out.print(
-            ColorUtils.colorize(
-                "How many search conditions? (2-5): ",
-                ColorUtils.CYAN
-            )
-        );
-        String countStr = scanner.nextLine().trim();
+            int conditionCount = 0;
+            while (true) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "How many search conditions? (2-5): ",
+                        ColorUtils.CYAN
+                    )
+                );
+                String countStr = scanner.nextLine().trim();
 
-        int conditionCount = 2;
-        try {
-            conditionCount = Integer.parseInt(countStr);
-            if (conditionCount < 2) conditionCount = 2;
-            if (conditionCount > 5) conditionCount = 5;
-        } catch (NumberFormatException e) {
-            conditionCount = 2;
-        }
+                try {
+                    conditionCount = Integer.parseInt(countStr);
+                    if (conditionCount < 2 || conditionCount > 5) {
+                        displayError(
+                            "Number must be between 2 and 5! Please try again."
+                        );
+                        continue;
+                    }
+                    break;
+                } catch (NumberFormatException e) {
+                    displayError(
+                        "Invalid number! Please enter a number between 2 and 5."
+                    );
+                }
+            }
 
-        for (int i = 1; i <= conditionCount; i++) {
+            int validConditions = 0;
+            for (int i = 1; i <= conditionCount; i++) {
+                System.out.println();
+                System.out.println(
+                    ColorUtils.colorize(
+                        "Condition " + i + ":",
+                        ColorUtils.BRIGHT_YELLOW
+                    )
+                );
+
+                System.out.println("  1. First Name    4. Phone");
+                System.out.println("  2. Last Name     5. Email");
+                System.out.println("  3. Nickname      6. Birth Date");
+
+                String fieldName = null;
+                while (fieldName == null) {
+                    System.out.print(
+                        ColorUtils.colorize("  Select field: ", ColorUtils.CYAN)
+                    );
+                    String fieldChoice = scanner.nextLine().trim();
+
+                    fieldName = getFieldNameFromChoice(fieldChoice);
+                    if (fieldName == null) {
+                        displayError("  Invalid field! Please select 1-6.");
+                    }
+                }
+
+                String value = null;
+                while (value == null || value.isEmpty()) {
+                    System.out.print(
+                        ColorUtils.colorize(
+                            "  Enter value to search: ",
+                            ColorUtils.CYAN
+                        )
+                    );
+                    value = scanner.nextLine().trim();
+
+                    if (value.isEmpty()) {
+                        displayError(
+                            "  Value cannot be empty! Please try again."
+                        );
+                    }
+                }
+
+                String matchChoice = null;
+                while (matchChoice == null) {
+                    System.out.print(
+                        ColorUtils.colorize(
+                            "  Match type (1=Exact, 2=Contains): ",
+                            ColorUtils.CYAN
+                        )
+                    );
+                    matchChoice = scanner.nextLine().trim();
+
+                    if (!matchChoice.equals("1") && !matchChoice.equals("2")) {
+                        displayError("  Invalid choice! Please enter 1 or 2.");
+                        matchChoice = null;
+                    }
+                }
+
+                if (matchChoice.equals("1")) {
+                    criteria.addExactMatch(fieldName, value);
+                } else {
+                    criteria.addPartialMatch(fieldName, value);
+                }
+                validConditions++;
+            }
+
+            if (validConditions < 2) {
+                displayError("Need at least 2 valid search criteria!");
+                pauseScreen();
+                continue;
+            }
+
+            List<Contact> results = contactManager.searchByCriteria(criteria);
+
             System.out.println();
             System.out.println(
                 ColorUtils.colorize(
-                    "Condition " + i + ":",
-                    ColorUtils.BRIGHT_YELLOW
+                    "═══════════════════════════════════════════════════════════",
+                    ColorUtils.BRIGHT_BLUE
                 )
             );
-
-            System.out.println("  1. First Name    4. Phone");
-            System.out.println("  2. Last Name     5. Email");
-            System.out.println("  3. Nickname      6. Birth Date");
-
-            System.out.print(
-                ColorUtils.colorize("  Select field: ", ColorUtils.CYAN)
-            );
-            String fieldChoice = scanner.nextLine().trim();
-
-            String fieldName = getFieldNameFromChoice(fieldChoice);
-            if (fieldName == null) {
-                displayWarning("Invalid field! Skipping...");
-                continue;
-            }
-
-            System.out.print(
+            System.out.println(
                 ColorUtils.colorize(
-                    "  Enter value to search: ",
-                    ColorUtils.CYAN
+                    "Query: " + criteria.toString(),
+                    ColorUtils.YELLOW
                 )
             );
-            String value = scanner.nextLine().trim();
-
-            if (value.isEmpty()) {
-                displayWarning("Empty value! Skipping...");
-                continue;
-            }
-
-            System.out.print(
+            System.out.println(
                 ColorUtils.colorize(
-                    "  Match type (1=Exact, 2=Contains): ",
-                    ColorUtils.CYAN
+                    "═══════════════════════════════════════════════════════════",
+                    ColorUtils.BRIGHT_BLUE
                 )
             );
-            String matchChoice = scanner.nextLine().trim();
-
-            if (matchChoice.equals("1")) {
-                criteria.addExactMatch(fieldName, value);
-            } else {
-                criteria.addPartialMatch(fieldName, value);
-            }
-        }
-
-        if (!criteria.hasCriteria()) {
-            displayWarning("No valid search criteria specified!");
-            pauseScreen();
-            return;
-        }
-
-        List<Contact> results = contactManager.searchByCriteria(criteria);
-
-        System.out.println();
-        System.out.println(
-            ColorUtils.colorize(
-                "═══════════════════════════════════════════════════════════",
-                ColorUtils.BRIGHT_BLUE
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "Query: " + criteria.toString(),
-                ColorUtils.YELLOW
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "═══════════════════════════════════════════════════════════",
-                ColorUtils.BRIGHT_BLUE
-            )
-        );
-        System.out.println();
-
-        if (results.isEmpty()) {
-            displayInfo("No contacts found matching your query.");
-        } else {
-            displaySuccess("Found " + results.size() + " contact(s):");
             System.out.println();
-            displayContactList(results);
-        }
 
-        pauseScreen();
+            if (results.isEmpty()) {
+                displayInfo("No contacts found matching your query.");
+            } else {
+                displaySuccess("Found " + results.size() + " contact(s):");
+                System.out.println();
+                displayContactList(results);
+            }
+
+            pauseScreen();
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "\nPerform another search? (y/n): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String again = scanner.nextLine().trim().toLowerCase();
+            if (!again.equals("y")) {
+                break;
+            }
+        }
     }
 
     /**
      * Sorts contacts by a selected field.
      */
     protected void sortContacts() {
-        ColorUtils.clearScreen();
-        System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "║                    SORT CONTACTS                           ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
-        System.out.println();
+        while (true) {
+            ColorUtils.clearScreen();
+            System.out.println(
+                ColorUtils.colorize(
+                    "╔════════════════════════════════════════════════════════════╗",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "║                    SORT CONTACTS                           ║",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "╚════════════════════════════════════════════════════════════╝",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println();
 
-        List<Contact> contacts = contactManager.getAllContacts();
+            List<Contact> contacts = contactManager.getAllContacts();
 
-        if (contacts.isEmpty()) {
-            displayInfo("No contacts to sort.");
+            if (contacts.isEmpty()) {
+                displayInfo("No contacts to sort.");
+                pauseScreen();
+                return;
+            }
+
+            System.out.println(
+                ColorUtils.colorize(
+                    "Select field to sort by:",
+                    ColorUtils.YELLOW
+                )
+            );
+            System.out.println("  1. Contact ID");
+            System.out.println("  2. First Name");
+            System.out.println("  3. Last Name");
+            System.out.println("  4. Email");
+            System.out.println("  5. Phone (Primary)");
+            System.out.println("  6. Birth Date");
+            System.out.println("  0. Cancel");
+            System.out.println();
+
+            System.out.print(
+                ColorUtils.colorize("Select field: ", ColorUtils.CYAN)
+            );
+            String fieldChoice = scanner.nextLine().trim();
+
+            if (fieldChoice.equals("0")) {
+                return;
+            }
+
+            String fieldName = getSortFieldNameFromChoice(fieldChoice);
+            if (fieldName == null) {
+                displayError("Invalid field selection! Please select 1-6.");
+                pauseScreen();
+                continue;
+            }
+
+            System.out.print(
+                ColorUtils.colorize(
+                    "Sort order (1=Ascending, 2=Descending): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String orderChoice = scanner.nextLine().trim();
+
+            if (!orderChoice.equals("1") && !orderChoice.equals("2")) {
+                displayError("Invalid sort order! Please enter 1 or 2.");
+                pauseScreen();
+                continue;
+            }
+
+            boolean ascending = orderChoice.equals("1");
+
+            List<Contact> sortedContacts = contactManager.sortContacts(
+                contacts,
+                fieldName,
+                ascending
+            );
+
+            System.out.println();
+            displaySuccess(
+                "Contacts sorted by " +
+                    fieldName +
+                    " (" +
+                    (ascending ? "Ascending" : "Descending") +
+                    ")"
+            );
+            System.out.println();
+            displayContactList(sortedContacts);
+
             pauseScreen();
-            return;
+
+            System.out.print(
+                ColorUtils.colorize("\nSort again? (y/n): ", ColorUtils.CYAN)
+            );
+            String again = scanner.nextLine().trim().toLowerCase();
+            if (!again.equals("y")) {
+                break;
+            }
         }
-
-        System.out.println(
-            ColorUtils.colorize("Select field to sort by:", ColorUtils.YELLOW)
-        );
-        System.out.println("  1. Contact ID");
-        System.out.println("  2. First Name");
-        System.out.println("  3. Last Name");
-        System.out.println("  4. Email");
-        System.out.println("  5. Phone (Primary)");
-        System.out.println("  6. Birth Date");
-        System.out.println("  0. Cancel");
-        System.out.println();
-
-        System.out.print(
-            ColorUtils.colorize("Select field: ", ColorUtils.CYAN)
-        );
-        String fieldChoice = scanner.nextLine().trim();
-
-        if (fieldChoice.equals("0")) {
-            return;
-        }
-
-        String fieldName = getFieldNameFromChoice(fieldChoice);
-        if (fieldName == null) {
-            displayError("Invalid field selection!");
-            pauseScreen();
-            return;
-        }
-
-        System.out.print(
-            ColorUtils.colorize(
-                "Sort order (1=Ascending, 2=Descending): ",
-                ColorUtils.CYAN
-            )
-        );
-        String orderChoice = scanner.nextLine().trim();
-
-        boolean ascending = !orderChoice.equals("2");
-
-        List<Contact> sortedContacts = contactManager.sortContacts(
-            contacts,
-            fieldName,
-            ascending
-        );
-
-        System.out.println();
-        displaySuccess(
-            "Contacts sorted by " +
-                fieldName +
-                " (" +
-                (ascending ? "Ascending" : "Descending") +
-                ")"
-        );
-        System.out.println();
-        displayContactList(sortedContacts);
-
-        pauseScreen();
     }
 
     /**
-     * Converts field choice number to field name.
+     * Converts field choice number to field name for search operations.
      *
      * @param choice The choice number
      * @return The field name, or null if invalid
@@ -799,7 +900,32 @@ public class Tester extends BaseRole {
             case "7":
                 return "linkedin_url";
             default:
-                return "contact_id".equals(choice) ? "contact_id" : null;
+                return null;
+        }
+    }
+
+    /**
+     * Converts field choice number to field name for sort operations.
+     *
+     * @param choice The choice number
+     * @return The field name, or null if invalid
+     */
+    protected String getSortFieldNameFromChoice(String choice) {
+        switch (choice) {
+            case "1":
+                return "contact_id";
+            case "2":
+                return "first_name";
+            case "3":
+                return "last_name";
+            case "4":
+                return "email";
+            case "5":
+                return "phone_primary";
+            case "6":
+                return "birth_date";
+            default:
+                return null;
         }
     }
 
