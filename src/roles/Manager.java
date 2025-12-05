@@ -642,15 +642,25 @@ public class Manager extends BaseRole {
         System.out.println("  Role: " + role);
         System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize(
-                "Confirm add user? (yes/no): ",
-                ColorUtils.YELLOW
-            )
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        // Validate yes/no confirmation with loop
+        String confirm = null;
+        while (confirm == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Confirm add user? (yes/no): ",
+                    ColorUtils.YELLOW
+                )
+            );
+            String input = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
+            if (ValidationUtils.isValidYesNo(input)) {
+                confirm = input;
+            } else {
+                displayError("Invalid input! Please enter 'yes' or 'no'.");
+            }
+        }
+
+        if (!ValidationUtils.yesNoToBoolean(confirm)) {
             displayInfo("User addition cancelled.");
             pauseScreen();
             return;
@@ -689,6 +699,21 @@ public class Manager extends BaseRole {
                 ColorUtils.YELLOW
             )
         );
+        System.out.println();
+
+        // Show all users first
+        java.util.List<User> allUsers = userManager.getAllUsers();
+        if (allUsers.isEmpty()) {
+            displayInfo("No users available to update.");
+            pauseScreen();
+            return;
+        }
+
+        System.out.println(
+            ColorUtils.colorize("Available users:", ColorUtils.YELLOW)
+        );
+        System.out.println();
+        displayUserList(allUsers);
         System.out.println();
 
         System.out.print(
@@ -840,14 +865,26 @@ public class Manager extends BaseRole {
                 break;
         }
 
-        // Confirm update
+        // Confirm update with validation loop
         System.out.println();
-        System.out.print(
-            ColorUtils.colorize("Confirm update? (yes/no): ", ColorUtils.YELLOW)
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        String confirm = null;
+        while (confirm == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Confirm update? (yes/no): ",
+                    ColorUtils.YELLOW
+                )
+            );
+            String input = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
+            if (ValidationUtils.isValidYesNo(input)) {
+                confirm = input;
+            } else {
+                displayError("Invalid input! Please enter 'yes' or 'no'.");
+            }
+        }
+
+        if (!ValidationUtils.yesNoToBoolean(confirm)) {
             displayInfo("Update cancelled.");
             pauseScreen();
             return;
@@ -886,6 +923,21 @@ public class Manager extends BaseRole {
                 ColorUtils.BRIGHT_RED
             )
         );
+        System.out.println();
+
+        // Show all users first
+        java.util.List<User> allUsers = userManager.getAllUsers();
+        if (allUsers.isEmpty()) {
+            displayInfo("No users available to delete.");
+            pauseScreen();
+            return;
+        }
+
+        System.out.println(
+            ColorUtils.colorize("Available users:", ColorUtils.YELLOW)
+        );
+        System.out.println();
+        displayUserList(allUsers);
         System.out.println();
 
         System.out.print(
@@ -932,15 +984,25 @@ public class Manager extends BaseRole {
         );
         displayUserDetails(user);
 
-        System.out.print(
-            ColorUtils.colorize(
-                "Are you sure you want to delete this user? (yes/no): ",
-                ColorUtils.RED
-            )
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        // Validate yes/no confirmation with loop
+        String confirm = null;
+        while (confirm == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Are you sure you want to delete this user? (yes/no): ",
+                    ColorUtils.RED
+                )
+            );
+            String input = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
+            if (ValidationUtils.isValidYesNo(input)) {
+                confirm = input;
+            } else {
+                displayError("Invalid input! Please enter 'yes' or 'no'.");
+            }
+        }
+
+        if (!ValidationUtils.yesNoToBoolean(confirm)) {
             displayInfo("Deletion cancelled.");
             pauseScreen();
             return;

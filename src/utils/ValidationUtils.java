@@ -18,7 +18,7 @@ public class ValidationUtils {
 
     // Regular expression patterns
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{3,}$"
+        "^[a-z0-9+_.-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
     );
 
     private static final Pattern PHONE_PATTERN = Pattern.compile(
@@ -42,6 +42,7 @@ public class ValidationUtils {
 
     /**
      * Validates an email address.
+     * Email must be in lowercase format (e.g., name.surname@email.com)
      *
      * @param email The email address to validate
      * @return true if valid, false otherwise
@@ -50,7 +51,12 @@ public class ValidationUtils {
         if (email == null || email.trim().isEmpty()) {
             return false;
         }
-        return EMAIL_PATTERN.matcher(email.trim()).matches();
+        String trimmed = email.trim();
+        // Check if email contains any uppercase letters
+        if (!trimmed.equals(trimmed.toLowerCase())) {
+            return false;
+        }
+        return EMAIL_PATTERN.matcher(trimmed).matches();
     }
 
     /**
@@ -304,7 +310,7 @@ public class ValidationUtils {
      * @return Error message
      */
     public static String getEmailError() {
-        return "Invalid email format. Example: user@example.com";
+        return "Invalid email format. Must be lowercase (e.g., name.surname@email.com)";
     }
 
     /**
@@ -403,7 +409,7 @@ public class ValidationUtils {
      * @return Email format hint string
      */
     public static String getEmailFormatHint() {
-        return "(format: name.surname@email.com - use lowercase)";
+        return "(format: name.surname@email.com - must be lowercase, no capital letters)";
     }
 
     /**

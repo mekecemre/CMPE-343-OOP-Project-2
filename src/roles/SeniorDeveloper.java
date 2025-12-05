@@ -203,20 +203,23 @@ public class SeniorDeveloper extends JuniorDeveloper {
         }
 
         // Middle Name (Optional)
-        System.out.print(
-            ColorUtils.colorize(
-                "Middle Name (optional, press Enter to skip): ",
-                ColorUtils.CYAN
-            )
-        );
-        String middleName = scanner.nextLine().trim();
-        if (!middleName.isEmpty()) {
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Middle Name (optional, press Enter to skip): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String middleName = scanner.nextLine().trim();
+            if (middleName.isEmpty()) {
+                break; // Skip optional field
+            }
             if (!ValidationUtils.isValidName(middleName)) {
                 displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
+                continue;
             }
             newContact.setMiddleName(middleName);
+            break;
         }
 
         // Last Name (Required)
@@ -350,17 +353,23 @@ public class SeniorDeveloper extends JuniorDeveloper {
         }
 
         // LinkedIn URL (Optional)
-        System.out.print(
-            ColorUtils.colorize("LinkedIn URL (optional): ", ColorUtils.CYAN)
-        );
-        String linkedinUrl = scanner.nextLine().trim();
-        if (!linkedinUrl.isEmpty()) {
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "LinkedIn URL (optional): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String linkedinUrl = scanner.nextLine().trim();
+            if (linkedinUrl.isEmpty()) {
+                break; // Skip optional field
+            }
             if (!ValidationUtils.isValidLinkedInUrl(linkedinUrl)) {
                 displayError(ValidationUtils.getLinkedInError());
-                pauseScreen();
-                return;
+                continue;
             }
             newContact.setLinkedinUrl(linkedinUrl);
+            break;
         }
 
         // Birth Date (Required)
@@ -397,12 +406,25 @@ public class SeniorDeveloper extends JuniorDeveloper {
         System.out.println("  Email: " + newContact.getEmail());
         System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize("Confirm add? (yes/no): ", ColorUtils.YELLOW)
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        // Validate yes/no confirmation with loop
+        String confirm = null;
+        while (confirm == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Confirm add? (yes/no): ",
+                    ColorUtils.YELLOW
+                )
+            );
+            String input = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
+            if (ValidationUtils.isValidYesNo(input)) {
+                confirm = input;
+            } else {
+                displayError("Invalid input! Please enter 'yes' or 'no'.");
+            }
+        }
+
+        if (!ValidationUtils.yesNoToBoolean(confirm)) {
             displayInfo("Addition cancelled.");
             pauseScreen();
             return;
@@ -742,6 +764,21 @@ public class SeniorDeveloper extends JuniorDeveloper {
         );
         System.out.println();
 
+        // Show all contacts first
+        List<Contact> allContacts = contactManager.getAllContacts();
+        if (allContacts.isEmpty()) {
+            displayInfo("No contacts available to delete.");
+            pauseScreen();
+            return;
+        }
+
+        System.out.println(
+            ColorUtils.colorize("Available contacts:", ColorUtils.YELLOW)
+        );
+        System.out.println();
+        displayContactList(allContacts);
+        System.out.println();
+
         System.out.print(
             ColorUtils.colorize(
                 "Enter Contact IDs separated by commas (e.g., 1,2,3): ",
@@ -807,17 +844,28 @@ public class SeniorDeveloper extends JuniorDeveloper {
         }
 
         System.out.println();
-        System.out.print(
-            ColorUtils.colorize(
-                "Are you sure you want to delete these " +
-                    contactIds.size() +
-                    " contacts? (yes/no): ",
-                ColorUtils.RED
-            )
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
+        // Validate yes/no confirmation with loop
+        String confirm = null;
+        while (confirm == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Are you sure you want to delete these " +
+                        contactIds.size() +
+                        " contacts? (yes/no): ",
+                    ColorUtils.RED
+                )
+            );
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (ValidationUtils.isValidYesNo(input)) {
+                confirm = input;
+            } else {
+                displayError("Invalid input! Please enter 'yes' or 'no'.");
+            }
+        }
+
+        if (!ValidationUtils.yesNoToBoolean(confirm)) {
             displayInfo("Deletion cancelled.");
             pauseScreen();
             return;
