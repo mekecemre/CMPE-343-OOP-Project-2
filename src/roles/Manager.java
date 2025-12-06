@@ -716,33 +716,39 @@ public class Manager extends BaseRole {
         displayUserList(allUsers);
         System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize(
-                "Enter User ID to update (or 0 to cancel): ",
-                ColorUtils.CYAN
-            )
-        );
-        String idInput = scanner.nextLine().trim();
+        // Loop for ID input validation
+        int userId = 0;
+        User existingUser = null;
+        while (existingUser == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Enter User ID to update (or 0 to cancel): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String idInput = scanner.nextLine().trim();
 
-        if (idInput.equals("0")) {
-            displayInfo("Update cancelled.");
-            pauseScreen();
-            return;
-        }
+            if (idInput.equals("0")) {
+                displayInfo("Update cancelled.");
+                pauseScreen();
+                return;
+            }
 
-        if (!isValidInteger(idInput)) {
-            displayError("Invalid User ID! Must be a number.");
-            pauseScreen();
-            return;
-        }
+            if (!isValidInteger(idInput)) {
+                displayError(
+                    "Invalid User ID! Must be a number. Please try again."
+                );
+                continue;
+            }
 
-        int userId = Integer.parseInt(idInput);
-        User existingUser = userManager.getUserById(userId);
+            userId = Integer.parseInt(idInput);
+            existingUser = userManager.getUserById(userId);
 
-        if (existingUser == null) {
-            displayError("User with ID " + userId + " not found!");
-            pauseScreen();
-            return;
+            if (existingUser == null) {
+                displayError(
+                    "User with ID " + userId + " not found! Please try again."
+                );
+            }
         }
 
         // Display current user details
@@ -760,63 +766,77 @@ public class Manager extends BaseRole {
         );
         System.out.println();
 
-        // Username
-        System.out.print(
-            ColorUtils.colorize(
-                "Username [" + existingUser.getUsername() + "]: ",
-                ColorUtils.CYAN
-            )
-        );
-        String username = scanner.nextLine().trim();
-        if (username.isEmpty()) {
-            username = existingUser.getUsername();
-        } else {
-            if (!ValidationUtils.isValidUsername(username)) {
-                displayError("Invalid username format!");
-                pauseScreen();
-                return;
+        // Username with validation loop
+        String username = existingUser.getUsername();
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Username [" + existingUser.getUsername() + "]: ",
+                    ColorUtils.CYAN
+                )
+            );
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                break; // Keep current
             }
-            if (userManager.usernameExistsForOtherUser(username, userId)) {
-                displayError("Username already exists for another user!");
-                pauseScreen();
-                return;
+            if (!ValidationUtils.isValidUsername(input)) {
+                displayError("Invalid username format! Please try again.");
+                continue;
             }
+            if (userManager.usernameExistsForOtherUser(input, userId)) {
+                displayError(
+                    "Username already exists for another user! Please try again."
+                );
+                continue;
+            }
+            username = input;
+            break;
         }
 
-        // Name
-        System.out.print(
-            ColorUtils.colorize(
-                "First Name [" + existingUser.getName() + "]: ",
-                ColorUtils.CYAN
-            )
-        );
-        String name = scanner.nextLine().trim();
-        if (name.isEmpty()) {
-            name = existingUser.getName();
-        } else {
-            if (!ValidationUtils.isValidName(name)) {
-                displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
+        // Name with validation loop
+        String name = existingUser.getName();
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "First Name [" + existingUser.getName() + "]: ",
+                    ColorUtils.CYAN
+                )
+            );
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                break; // Keep current
             }
+            if (!ValidationUtils.isValidName(input)) {
+                displayError(
+                    ValidationUtils.getNameError() + " Please try again."
+                );
+                continue;
+            }
+            name = input;
+            break;
         }
 
-        // Surname
-        System.out.print(
-            ColorUtils.colorize(
-                "Surname [" + existingUser.getSurname() + "]: ",
-                ColorUtils.CYAN
-            )
-        );
-        String surname = scanner.nextLine().trim();
-        if (surname.isEmpty()) {
-            surname = existingUser.getSurname();
-        } else {
-            if (!ValidationUtils.isValidName(surname)) {
-                displayError(ValidationUtils.getNameError());
-                pauseScreen();
-                return;
+        // Surname with validation loop
+        String surname = existingUser.getSurname();
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Surname [" + existingUser.getSurname() + "]: ",
+                    ColorUtils.CYAN
+                )
+            );
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                break; // Keep current
             }
+            if (!ValidationUtils.isValidName(input)) {
+                displayError(
+                    ValidationUtils.getNameError() + " Please try again."
+                );
+                continue;
+            }
+            surname = input;
+            break;
         }
 
         // Role
@@ -940,41 +960,48 @@ public class Manager extends BaseRole {
         displayUserList(allUsers);
         System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize(
-                "Enter User ID to delete (or 0 to cancel): ",
-                ColorUtils.CYAN
-            )
-        );
-        String idInput = scanner.nextLine().trim();
+        // Loop for ID input validation
+        int userId = 0;
+        User user = null;
+        while (user == null) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "Enter User ID to delete (or 0 to cancel): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String idInput = scanner.nextLine().trim();
 
-        if (idInput.equals("0")) {
-            displayInfo("Deletion cancelled.");
-            pauseScreen();
-            return;
-        }
+            if (idInput.equals("0")) {
+                displayInfo("Deletion cancelled.");
+                pauseScreen();
+                return;
+            }
 
-        if (!isValidInteger(idInput)) {
-            displayError("Invalid User ID! Must be a number.");
-            pauseScreen();
-            return;
-        }
+            if (!isValidInteger(idInput)) {
+                displayError(
+                    "Invalid User ID! Must be a number. Please try again."
+                );
+                continue;
+            }
 
-        int userId = Integer.parseInt(idInput);
+            userId = Integer.parseInt(idInput);
 
-        // Prevent self-deletion
-        if (userId == currentUser.getUserId()) {
-            displayError("You cannot delete your own account!");
-            pauseScreen();
-            return;
-        }
+            // Prevent self-deletion
+            if (userId == currentUser.getUserId()) {
+                displayError(
+                    "You cannot delete your own account! Please try again."
+                );
+                continue;
+            }
 
-        User user = userManager.getUserById(userId);
+            user = userManager.getUserById(userId);
 
-        if (user == null) {
-            displayError("User with ID " + userId + " not found!");
-            pauseScreen();
-            return;
+            if (user == null) {
+                displayError(
+                    "User with ID " + userId + " not found! Please try again."
+                );
+            }
         }
 
         // Display user details

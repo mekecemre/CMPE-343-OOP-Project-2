@@ -568,32 +568,153 @@ public class JuniorDeveloper extends Tester {
             return;
         }
 
-        managers.UndoManager.UndoOperation lastOp =
-            undoManager.peekLastOperation();
-        System.out.println(
-            ColorUtils.colorize("Last operation: ", ColorUtils.CYAN) +
-                lastOp.getDescription()
-        );
-        System.out.println();
+        // Undo operations one by one with individual confirmations
+        int undoneCount = 0;
 
-        System.out.print(
-            ColorUtils.colorize("Confirm undo? (yes/no): ", ColorUtils.YELLOW)
-        );
-        String confirm = scanner.nextLine().trim().toLowerCase();
+        while (undoManager.canUndo()) {
+            // Show all available undo operations at each iteration
+            java.util.List<String> history = undoManager.getUndoHistory();
 
-        if (!confirm.equals("yes") && !confirm.equals("y")) {
-            displayInfo("Undo cancelled.");
-            pauseScreen();
-            return;
+            if (history.isEmpty()) {
+                break;
+            }
+
+            System.out.println();
+            System.out.println(
+                ColorUtils.colorize(
+                    "═══════════════════════════════════════",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "Available undo operations (" + history.size() + "):",
+                    ColorUtils.YELLOW
+                )
+            );
+            System.out.println();
+
+            for (int i = history.size() - 1; i >= 0; i--) {
+                System.out.println(
+                    ColorUtils.colorize(
+                            "  " + (history.size() - i) + ". ",
+                            ColorUtils.CYAN
+                        ) +
+                        history.get(i)
+                );
+            }
+            System.out.println(
+                ColorUtils.colorize(
+                    "═══════════════════════════════════════",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println();
+
+            managers.UndoManager.UndoOperation operation =
+                undoManager.peekLastOperation();
+
+            System.out.println(
+                ColorUtils.colorize(
+                        "Next operation to undo (most recent): ",
+                        ColorUtils.YELLOW
+                    ) +
+                    operation.getDescription()
+            );
+            System.out.println();
+
+            // Ask for confirmation for this specific operation
+            String confirm = null;
+            while (confirm == null) {
+                System.out.print(
+                    ColorUtils.colorize(
+                        "Undo this operation? (yes/no): ",
+                        ColorUtils.YELLOW
+                    )
+                );
+                String input = scanner.nextLine().trim().toLowerCase();
+
+                if (utils.ValidationUtils.isValidYesNo(input)) {
+                    confirm = input;
+                } else {
+                    displayError("Invalid input! Please enter 'yes' or 'no'.");
+                }
+            }
+
+            if (utils.ValidationUtils.yesNoToBoolean(confirm)) {
+                // Pop the operation and perform undo
+                managers.UndoManager.UndoOperation op =
+                    undoManager.popLastOperation();
+
+                if (undoManager.undoContactOperation(op, contactManager)) {
+                    displaySuccess(
+                        "✓ Operation undone: " + op.getDescription()
+                    );
+                    undoneCount++;
+                } else {
+                    displayError("✗ Failed to undo: " + op.getDescription());
+                }
+
+                // Ask if user wants to continue undoing
+                if (undoManager.canUndo()) {
+                    System.out.println();
+                    String continueUndo = null;
+                    while (continueUndo == null) {
+                        System.out.print(
+                            ColorUtils.colorize(
+                                "Continue undoing more operations? (yes/no): ",
+                                ColorUtils.CYAN
+                            )
+                        );
+                        String input = scanner.nextLine().trim().toLowerCase();
+
+                        if (utils.ValidationUtils.isValidYesNo(input)) {
+                            continueUndo = input;
+                        } else {
+                            displayError(
+                                "Invalid input! Please enter 'yes' or 'no'."
+                            );
+                        }
+                    }
+
+                    if (!utils.ValidationUtils.yesNoToBoolean(continueUndo)) {
+                        displayInfo("Undo process stopped.");
+                        break;
+                    }
+                }
+            } else {
+                // User chose not to undo this operation - stop the process
+                displayInfo(
+                    "Undo cancelled. Operation remains in history and can be undone later."
+                );
+                break;
+            }
         }
 
-        managers.UndoManager.UndoOperation operation =
-            undoManager.popLastOperation();
-
-        if (undoManager.undoContactOperation(operation, contactManager)) {
-            displaySuccess("Operation undone successfully!");
+        if (undoneCount == 0) {
+            displayInfo("No operations were undone.");
         } else {
-            displayError("Failed to undo operation.");
+            System.out.println();
+            System.out.println(
+                ColorUtils.colorize(
+                    "═══════════════════════════════════════",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "Summary: " +
+                        undoneCount +
+                        " operation(s) undone successfully.",
+                    ColorUtils.GREEN
+                )
+            );
+            System.out.println(
+                ColorUtils.colorize(
+                    "═══════════════════════════════════════",
+                    ColorUtils.BRIGHT_CYAN
+                )
+            );
         }
 
         pauseScreen();

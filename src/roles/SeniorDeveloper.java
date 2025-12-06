@@ -470,31 +470,34 @@ public class SeniorDeveloper extends JuniorDeveloper {
         );
         System.out.println();
 
-        System.out.print(
-            ColorUtils.colorize(
-                "How many contacts do you want to add? (1-20, or 0 to cancel): ",
-                ColorUtils.CYAN
-            )
-        );
-        String countStr = scanner.nextLine().trim();
+        int count = 0;
+        while (true) {
+            System.out.print(
+                ColorUtils.colorize(
+                    "How many contacts do you want to add? (1-20, or 0 to cancel): ",
+                    ColorUtils.CYAN
+                )
+            );
+            String countStr = scanner.nextLine().trim();
 
-        if (countStr.equals("0")) {
-            displayInfo("Operation cancelled.");
-            pauseScreen();
-            return;
-        }
+            if (countStr.equals("0")) {
+                displayInfo("Operation cancelled.");
+                pauseScreen();
+                return;
+            }
 
-        if (!isValidInteger(countStr)) {
-            displayError("Invalid number!");
-            pauseScreen();
-            return;
-        }
+            if (!isValidInteger(countStr)) {
+                displayError("Invalid number! Please enter a valid number.");
+                continue;
+            }
 
-        int count = Integer.parseInt(countStr);
-        if (count < 1 || count > 20) {
-            displayError("Please enter a number between 1 and 20.");
-            pauseScreen();
-            return;
+            count = Integer.parseInt(countStr);
+            if (count < 1 || count > 20) {
+                displayError("Please enter a number between 1 and 20.");
+                continue;
+            }
+
+            break;
         }
 
         int successCount = 0;
