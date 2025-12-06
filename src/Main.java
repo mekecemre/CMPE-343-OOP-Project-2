@@ -20,6 +20,14 @@ public class Main {
     private static UserManager userManager;
 
     /**
+     * Private constructor to prevent instantiation.
+     * This is a utility class with only static methods.
+     */
+    private Main() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
+    /**
      * Main method that initializes the system and handles the login process.
      *
      * @param args Command line arguments (not used)

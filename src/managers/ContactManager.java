@@ -617,6 +617,9 @@ public class ContactManager {
      * This method adds a contact but FORCES it to keep its specific ID.
      * We use this only for UNDO operations to restore a deleted contact exactly as
      * it was.
+     *
+     * @param contact The contact to add with its existing ID
+     * @return true if contact was added successfully, false otherwise
      */
     public boolean addContactWithId(Contact contact) {
         // SQL Query: We include 'contact_id' in the list of columns to fill.
