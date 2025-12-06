@@ -472,11 +472,17 @@ public class SeniorDeveloper extends JuniorDeveloper {
 
         System.out.print(
             ColorUtils.colorize(
-                "How many contacts do you want to add? ",
+                "How many contacts do you want to add? (1-20, or 0 to cancel): ",
                 ColorUtils.CYAN
             )
         );
         String countStr = scanner.nextLine().trim();
+
+        if (countStr.equals("0")) {
+            displayInfo("Operation cancelled.");
+            pauseScreen();
+            return;
+        }
 
         if (!isValidInteger(countStr)) {
             displayError("Invalid number!");
@@ -781,7 +787,7 @@ public class SeniorDeveloper extends JuniorDeveloper {
 
         System.out.print(
             ColorUtils.colorize(
-                "Enter Contact IDs separated by commas (e.g., 1,2,3): ",
+                "Enter Contact IDs separated by commas (e.g., 1,2,3), or press Enter to cancel: ",
                 ColorUtils.CYAN
             )
         );

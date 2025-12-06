@@ -485,11 +485,17 @@ public class Tester extends BaseRole {
 
             System.out.print(
                 ColorUtils.colorize(
-                    "Logical operator (AND/OR): ",
+                    "Logical operator (AND/OR, or 0 to cancel): ",
                     ColorUtils.CYAN
                 )
             );
             String logicalOp = scanner.nextLine().trim().toUpperCase();
+
+            if (logicalOp.equals("0")) {
+                displayInfo("Search cancelled.");
+                pauseScreen();
+                return;
+            }
 
             if (!logicalOp.equals("AND") && !logicalOp.equals("OR")) {
                 displayError("Invalid operator! Please enter AND or OR.");
@@ -514,13 +520,18 @@ public class Tester extends BaseRole {
 
                 System.out.print(
                     ColorUtils.colorize(
-                        "Select field (or 0 to finish): ",
+                        "Select field (or 0 to finish/cancel): ",
                         ColorUtils.CYAN
                     )
                 );
                 String fieldChoice = scanner.nextLine().trim();
 
                 if (fieldChoice.equals("0")) {
+                    if (criteria.getCriteriaCount() == 0) {
+                        displayInfo("Search cancelled.");
+                        pauseScreen();
+                        return;
+                    }
                     break;
                 }
 
@@ -671,11 +682,17 @@ public class Tester extends BaseRole {
 
             System.out.print(
                 ColorUtils.colorize(
-                    "Use AND or OR operator? (AND/OR): ",
+                    "Use AND or OR operator? (AND/OR, or 0 to cancel): ",
                     ColorUtils.CYAN
                 )
             );
             String operator = scanner.nextLine().trim().toUpperCase();
+
+            if (operator.equals("0")) {
+                displayInfo("Search cancelled.");
+                pauseScreen();
+                return;
+            }
 
             if (!operator.equals("AND") && !operator.equals("OR")) {
                 displayError("Invalid operator! Please enter AND or OR.");
@@ -689,11 +706,17 @@ public class Tester extends BaseRole {
             while (true) {
                 System.out.print(
                     ColorUtils.colorize(
-                        "How many search conditions? (2-5): ",
+                        "How many search conditions? (2-5, or 0 to cancel): ",
                         ColorUtils.CYAN
                     )
                 );
                 String countStr = scanner.nextLine().trim();
+
+                if (countStr.equals("0")) {
+                    displayInfo("Search cancelled.");
+                    pauseScreen();
+                    return;
+                }
 
                 try {
                     conditionCount = Integer.parseInt(countStr);
