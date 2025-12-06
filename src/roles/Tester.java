@@ -22,7 +22,7 @@ public class Tester extends BaseRole {
      * Constructor for Tester role.
      *
      * @param dbManager The database manager instance
-     * @param scanner The scanner for user input
+     * @param scanner   The scanner for user input
      */
     public Tester(DatabaseManager dbManager, Scanner scanner) {
         super(null, dbManager, scanner);
@@ -32,15 +32,14 @@ public class Tester extends BaseRole {
     /**
      * Constructor for Tester role with user.
      *
-     * @param user The current logged-in user
+     * @param user      The current logged-in user
      * @param dbManager The database manager instance
-     * @param scanner The scanner for user input
+     * @param scanner   The scanner for user input
      */
     public Tester(
-        models.User user,
-        DatabaseManager dbManager,
-        Scanner scanner
-    ) {
+            models.User user,
+            DatabaseManager dbManager,
+            Scanner scanner) {
         super(user, dbManager, scanner);
     }
 
@@ -64,39 +63,28 @@ public class Tester extends BaseRole {
     @Override
     protected void displayMenuOptions() {
         System.out.println(
-            ColorUtils.colorize("  📋 MAIN MENU", ColorUtils.BRIGHT_YELLOW)
-        );
+                ColorUtils.colorize("  📋 MAIN MENU", ColorUtils.BRIGHT_YELLOW));
         System.out.println();
         System.out.println(
-            ColorUtils.colorize("  1. List All Contacts", ColorUtils.WHITE)
-        );
+                ColorUtils.colorize("  1. List All Contacts", ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize(
-                "  2. Search Contacts by Single Field",
-                ColorUtils.WHITE
-            )
-        );
+                ColorUtils.colorize(
+                        "  2. Search Contacts by Single Field",
+                        ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize(
-                "  3. Search Contacts by Multiple Fields",
-                ColorUtils.WHITE
-            )
-        );
+                ColorUtils.colorize(
+                        "  3. Search Contacts by Multiple Fields",
+                        ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize(
-                "  4. Advanced Search (User-Defined Query)",
-                ColorUtils.WHITE
-            )
-        );
+                ColorUtils.colorize(
+                        "  4. Advanced Search (User-Defined Query)",
+                        ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize("  5. Sort Contact Results", ColorUtils.WHITE)
-        );
+                ColorUtils.colorize("  5. Sort Contact Results", ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize("  6. Change Password", ColorUtils.WHITE)
-        );
+                ColorUtils.colorize("  6. Change Password", ColorUtils.WHITE));
         System.out.println(
-            ColorUtils.colorize("  7. Logout", ColorUtils.WHITE)
-        );
+                ColorUtils.colorize("  7. Logout", ColorUtils.WHITE));
     }
 
     @Override
@@ -135,23 +123,17 @@ public class Tester extends BaseRole {
     protected void listAllContacts() {
         ColorUtils.clearScreen();
         System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "╔════════════════════════════════════════════════════════════╗",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println(
-            ColorUtils.colorize(
-                "║                    ALL CONTACTS                            ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "║                    ALL CONTACTS                            ║",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "╚════════════════════════════════════════════════════════════╝",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println();
 
         List<Contact> contacts = contactManager.getAllContacts();
@@ -174,48 +156,39 @@ public class Tester extends BaseRole {
      */
     protected void displayContactList(List<Contact> contacts) {
         System.out.println(
-            ColorUtils.colorize(
-                "─────────────────────────────────────────────────────────────────────────────────",
-                ColorUtils.CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "─────────────────────────────────────────────────────────────────────────────────",
+                        ColorUtils.CYAN));
         System.out.printf(
-            ColorUtils.colorize(
-                "%-5s %-15s %-15s %-15s %-15s %-25s%n",
-                ColorUtils.BRIGHT_WHITE
-            ),
-            "ID",
-            "First Name",
-            "Last Name",
-            "Phone",
-            "Email",
-            "Birth Date"
-        );
+                ColorUtils.colorize(
+                        "%-5s %-15s %-15s %-15s %-15s %-25s%n",
+                        ColorUtils.BRIGHT_WHITE),
+                "ID",
+                "First Name",
+                "Last Name",
+                "Phone",
+                "Email",
+                "Birth Date");
         System.out.println(
-            ColorUtils.colorize(
-                "─────────────────────────────────────────────────────────────────────────────────",
-                ColorUtils.CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "─────────────────────────────────────────────────────────────────────────────────",
+                        ColorUtils.CYAN));
 
         for (Contact contact : contacts) {
             System.out.printf(
-                "%-5d %-15s %-15s %-15s %-25s %-15s%n",
-                contact.getContactId(),
-                truncate(contact.getFirstName(), 15),
-                truncate(contact.getLastName(), 15),
-                truncate(contact.getPhonePrimary(), 15),
-                truncate(contact.getEmail(), 25),
-                contact.getBirthDate().toString()
-            );
+                    "%-5d %-15s %-15s %-15s %-25s %-15s%n",
+                    contact.getContactId(),
+                    truncate(contact.getFirstName(), 15),
+                    truncate(contact.getLastName(), 15),
+                    truncate(contact.getPhonePrimary(), 15),
+                    truncate(contact.getEmail(), 25),
+                    contact.getBirthDate().toString());
         }
 
         System.out.println(
-            ColorUtils.colorize(
-                "─────────────────────────────────────────────────────────────────────────────────",
-                ColorUtils.CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "─────────────────────────────────────────────────────────────────────────────────",
+                        ColorUtils.CYAN));
     }
 
     /**
@@ -225,78 +198,60 @@ public class Tester extends BaseRole {
      */
     protected void displayContactDetails(Contact contact) {
         System.out.println(
-            ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "╔════════════════════════════════════════════════════════════╗",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println(
-            ColorUtils.colorize(
-                "║                   CONTACT DETAILS                          ║",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "║                   CONTACT DETAILS                          ║",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println(
-            ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
-                ColorUtils.BRIGHT_CYAN
-            )
-        );
+                ColorUtils.colorize(
+                        "╚════════════════════════════════════════════════════════════╝",
+                        ColorUtils.BRIGHT_CYAN));
         System.out.println();
         System.out.println(
-            ColorUtils.colorize("  Contact ID:       ", ColorUtils.CYAN) +
-                contact.getContactId()
-        );
+                ColorUtils.colorize("  Contact ID:       ", ColorUtils.CYAN) +
+                        contact.getContactId());
         System.out.println(
-            ColorUtils.colorize("  First Name:       ", ColorUtils.CYAN) +
-                contact.getFirstName()
-        );
+                ColorUtils.colorize("  First Name:       ", ColorUtils.CYAN) +
+                        contact.getFirstName());
         System.out.println(
-            ColorUtils.colorize("  Middle Name:      ", ColorUtils.CYAN) +
-                (contact.getMiddleName() != null
-                    ? contact.getMiddleName()
-                    : "N/A")
-        );
+                ColorUtils.colorize("  Middle Name:      ", ColorUtils.CYAN) +
+                        (contact.getMiddleName() != null
+                                ? contact.getMiddleName()
+                                : "N/A"));
         System.out.println(
-            ColorUtils.colorize("  Last Name:        ", ColorUtils.CYAN) +
-                contact.getLastName()
-        );
+                ColorUtils.colorize("  Last Name:        ", ColorUtils.CYAN) +
+                        contact.getLastName());
         System.out.println(
-            ColorUtils.colorize("  Nickname:         ", ColorUtils.CYAN) +
-                (contact.getNickname() != null ? contact.getNickname() : "N/A")
-        );
+                ColorUtils.colorize("  Nickname:         ", ColorUtils.CYAN) +
+                        (contact.getNickname() != null ? contact.getNickname() : "N/A"));
         System.out.println(
-            ColorUtils.colorize("  Primary Phone:    ", ColorUtils.CYAN) +
-                contact.getPhonePrimary()
-        );
+                ColorUtils.colorize("  Primary Phone:    ", ColorUtils.CYAN) +
+                        contact.getPhonePrimary());
         System.out.println(
-            ColorUtils.colorize("  Secondary Phone:  ", ColorUtils.CYAN) +
-                (contact.getPhoneSecondary() != null
-                    ? contact.getPhoneSecondary()
-                    : "N/A")
-        );
+                ColorUtils.colorize("  Secondary Phone:  ", ColorUtils.CYAN) +
+                        (contact.getPhoneSecondary() != null
+                                ? contact.getPhoneSecondary()
+                                : "N/A"));
         System.out.println(
-            ColorUtils.colorize("  Email:            ", ColorUtils.CYAN) +
-                contact.getEmail()
-        );
+                ColorUtils.colorize("  Email:            ", ColorUtils.CYAN) +
+                        contact.getEmail());
         System.out.println(
-            ColorUtils.colorize("  LinkedIn URL:     ", ColorUtils.CYAN) +
-                (contact.getLinkedinUrl() != null
-                    ? contact.getLinkedinUrl()
-                    : "N/A")
-        );
+                ColorUtils.colorize("  LinkedIn URL:     ", ColorUtils.CYAN) +
+                        (contact.getLinkedinUrl() != null
+                                ? contact.getLinkedinUrl()
+                                : "N/A"));
         System.out.println(
-            ColorUtils.colorize("  Birth Date:       ", ColorUtils.CYAN) +
-                contact.getBirthDate()
-        );
+                ColorUtils.colorize("  Birth Date:       ", ColorUtils.CYAN) +
+                        contact.getBirthDate());
         System.out.println(
-            ColorUtils.colorize("  Created At:       ", ColorUtils.CYAN) +
-                contact.getCreatedAt()
-        );
+                ColorUtils.colorize("  Created At:       ", ColorUtils.CYAN) +
+                        contact.getCreatedAt());
         System.out.println(
-            ColorUtils.colorize("  Updated At:       ", ColorUtils.CYAN) +
-                contact.getUpdatedAt()
-        );
+                ColorUtils.colorize("  Updated At:       ", ColorUtils.CYAN) +
+                        contact.getUpdatedAt());
         System.out.println();
     }
 
@@ -307,40 +262,33 @@ public class Tester extends BaseRole {
         while (true) {
             ColorUtils.clearScreen();
             System.out.println(
-                ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╔════════════════════════════════════════════════════════════╗",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "║              SEARCH BY SINGLE FIELD                        ║",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "║              SEARCH BY SINGLE FIELD                        ║",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╚════════════════════════════════════════════════════════════╝",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println();
 
             System.out.println(
-                ColorUtils.colorize("Available fields:", ColorUtils.YELLOW)
-            );
+                    ColorUtils.colorize("Available fields:", ColorUtils.YELLOW));
             System.out.println("  1. First Name");
             System.out.println("  2. Last Name");
             System.out.println("  3. Email");
             System.out.println("  4. Phone (Primary)");
             System.out.println("  5. Nickname");
-            System.out.println("  6. LinkedIn URL");
+            System.out.println("  6. Birth Date");
+            System.out.println("  7. LinkedIn URL");
             System.out.println("  0. Cancel");
             System.out.println();
 
             System.out.print(
-                ColorUtils.colorize("Select field to search: ", ColorUtils.CYAN)
-            );
+                    ColorUtils.colorize("Select field to search: ", ColorUtils.CYAN));
             String fieldChoice = scanner.nextLine().trim();
 
             if (fieldChoice.equals("0")) {
@@ -354,9 +302,11 @@ public class Tester extends BaseRole {
                 continue;
             }
 
-            System.out.print(
-                ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN)
-            );
+            if (fieldName.equals("birth_date")) {
+                System.out.print(ColorUtils.colorize("Enter date (For Exact Search (YYYY-MM-DD)): ", ColorUtils.CYAN));
+            } else {
+                System.out.print(ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN));
+            }
             String searchValue = scanner.nextLine().trim();
 
             if (searchValue.isEmpty()) {
@@ -366,11 +316,9 @@ public class Tester extends BaseRole {
             }
 
             System.out.print(
-                ColorUtils.colorize(
-                    "Search type (1=Exact, 2=Partial): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "Search type (1=Exact, 2=Partial): ",
+                            ColorUtils.CYAN));
             String matchType = scanner.nextLine().trim();
 
             if (!matchType.equals("1") && !matchType.equals("2")) {
@@ -382,10 +330,9 @@ public class Tester extends BaseRole {
             boolean exactMatch = matchType.equals("1");
 
             List<Contact> results = contactManager.searchByField(
-                fieldName,
-                searchValue,
-                exactMatch
-            );
+                    fieldName,
+                    searchValue,
+                    exactMatch);
 
             System.out.println();
             if (results.isEmpty()) {
@@ -399,11 +346,9 @@ public class Tester extends BaseRole {
             pauseScreen();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "\nPerform another search? (y/n): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "\nPerform another search? (y/n): ",
+                            ColorUtils.CYAN));
             String again = scanner.nextLine().trim().toLowerCase();
             if (!again.equals("y")) {
                 break;
@@ -418,31 +363,23 @@ public class Tester extends BaseRole {
         while (true) {
             ColorUtils.clearScreen();
             System.out.println(
-                ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╔════════════════════════════════════════════════════════════╗",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "║             SEARCH BY MULTIPLE FIELDS                      ║",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "║             SEARCH BY MULTIPLE FIELDS                      ║",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╚════════════════════════════════════════════════════════════╝",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "Logical operator (AND/OR): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "Logical operator (AND/OR): ",
+                            ColorUtils.CYAN));
             String logicalOp = scanner.nextLine().trim().toUpperCase();
 
             if (!logicalOp.equals("AND") && !logicalOp.equals("OR")) {
@@ -456,8 +393,7 @@ public class Tester extends BaseRole {
             while (addingCriteria) {
                 System.out.println();
                 System.out.println(
-                    ColorUtils.colorize("Available fields:", ColorUtils.YELLOW)
-                );
+                        ColorUtils.colorize("Available fields:", ColorUtils.YELLOW));
                 System.out.println("  1. First Name");
                 System.out.println("  2. Last Name");
                 System.out.println("  3. Email");
@@ -467,11 +403,9 @@ public class Tester extends BaseRole {
                 System.out.println();
 
                 System.out.print(
-                    ColorUtils.colorize(
-                        "Select field (or 0 to finish): ",
-                        ColorUtils.CYAN
-                    )
-                );
+                        ColorUtils.colorize(
+                                "Select field (or 0 to finish): ",
+                                ColorUtils.CYAN));
                 String fieldChoice = scanner.nextLine().trim();
 
                 if (fieldChoice.equals("0")) {
@@ -485,23 +419,19 @@ public class Tester extends BaseRole {
                 }
 
                 System.out.print(
-                    ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN)
-                );
+                        ColorUtils.colorize("Enter search value: ", ColorUtils.CYAN));
                 String searchValue = scanner.nextLine().trim();
 
                 if (searchValue.isEmpty()) {
                     displayError(
-                        "Search value cannot be empty! Please try again."
-                    );
+                            "Search value cannot be empty! Please try again.");
                     continue;
                 }
 
                 System.out.print(
-                    ColorUtils.colorize(
-                        "Match type (1=Exact, 2=Partial): ",
-                        ColorUtils.CYAN
-                    )
-                );
+                        ColorUtils.colorize(
+                                "Match type (1=Exact, 2=Partial): ",
+                                ColorUtils.CYAN));
                 String matchType = scanner.nextLine().trim();
 
                 if (!matchType.equals("1") && !matchType.equals("2")) {
@@ -519,11 +449,9 @@ public class Tester extends BaseRole {
 
                 if (criteria.getCriteriaCount() >= 2) {
                     System.out.print(
-                        ColorUtils.colorize(
-                            "Add another criterion? (y/n): ",
-                            ColorUtils.CYAN
-                        )
-                    );
+                            ColorUtils.colorize(
+                                    "Add another criterion? (y/n): ",
+                                    ColorUtils.CYAN));
                     String more = scanner.nextLine().trim().toLowerCase();
                     if (!more.equals("y")) {
                         addingCriteria = false;
@@ -541,11 +469,9 @@ public class Tester extends BaseRole {
 
             System.out.println();
             System.out.println(
-                ColorUtils.colorize(
-                    "Search criteria: " + criteria.toString(),
-                    ColorUtils.YELLOW
-                )
-            );
+                    ColorUtils.colorize(
+                            "Search criteria: " + criteria.toString(),
+                            ColorUtils.YELLOW));
             System.out.println();
 
             if (results.isEmpty()) {
@@ -559,11 +485,9 @@ public class Tester extends BaseRole {
             pauseScreen();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "\nPerform another search? (y/n): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "\nPerform another search? (y/n): ",
+                            ColorUtils.CYAN));
             String again = scanner.nextLine().trim().toLowerCase();
             if (!again.equals("y")) {
                 break;
@@ -578,39 +502,29 @@ public class Tester extends BaseRole {
         while (true) {
             ColorUtils.clearScreen();
             System.out.println(
-                ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╔════════════════════════════════════════════════════════════╗",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "║                  ADVANCED SEARCH                           ║",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "║                  ADVANCED SEARCH                           ║",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╚════════════════════════════════════════════════════════════╝",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println();
 
             System.out.println(
-                ColorUtils.colorize(
-                    "Build a custom search query:",
-                    ColorUtils.YELLOW
-                )
-            );
+                    ColorUtils.colorize(
+                            "Build a custom search query:",
+                            ColorUtils.YELLOW));
             System.out.println();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "Use AND or OR operator? (AND/OR): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "Use AND or OR operator? (AND/OR): ",
+                            ColorUtils.CYAN));
             String operator = scanner.nextLine().trim().toUpperCase();
 
             if (!operator.equals("AND") && !operator.equals("OR")) {
@@ -624,26 +538,22 @@ public class Tester extends BaseRole {
             int conditionCount = 0;
             while (true) {
                 System.out.print(
-                    ColorUtils.colorize(
-                        "How many search conditions? (2-5): ",
-                        ColorUtils.CYAN
-                    )
-                );
+                        ColorUtils.colorize(
+                                "How many search conditions? (2-5): ",
+                                ColorUtils.CYAN));
                 String countStr = scanner.nextLine().trim();
 
                 try {
                     conditionCount = Integer.parseInt(countStr);
                     if (conditionCount < 2 || conditionCount > 5) {
                         displayError(
-                            "Number must be between 2 and 5! Please try again."
-                        );
+                                "Number must be between 2 and 5! Please try again.");
                         continue;
                     }
                     break;
                 } catch (NumberFormatException e) {
                     displayError(
-                        "Invalid number! Please enter a number between 2 and 5."
-                    );
+                            "Invalid number! Please enter a number between 2 and 5.");
                 }
             }
 
@@ -651,11 +561,9 @@ public class Tester extends BaseRole {
             for (int i = 1; i <= conditionCount; i++) {
                 System.out.println();
                 System.out.println(
-                    ColorUtils.colorize(
-                        "Condition " + i + ":",
-                        ColorUtils.BRIGHT_YELLOW
-                    )
-                );
+                        ColorUtils.colorize(
+                                "Condition " + i + ":",
+                                ColorUtils.BRIGHT_YELLOW));
 
                 System.out.println("  1. First Name    4. Phone");
                 System.out.println("  2. Last Name     5. Email");
@@ -664,8 +572,7 @@ public class Tester extends BaseRole {
                 String fieldName = null;
                 while (fieldName == null) {
                     System.out.print(
-                        ColorUtils.colorize("  Select field: ", ColorUtils.CYAN)
-                    );
+                            ColorUtils.colorize("  Select field: ", ColorUtils.CYAN));
                     String fieldChoice = scanner.nextLine().trim();
 
                     fieldName = getFieldNameFromChoice(fieldChoice);
@@ -677,28 +584,23 @@ public class Tester extends BaseRole {
                 String value = null;
                 while (value == null || value.isEmpty()) {
                     System.out.print(
-                        ColorUtils.colorize(
-                            "  Enter value to search: ",
-                            ColorUtils.CYAN
-                        )
-                    );
+                            ColorUtils.colorize(
+                                    "  Enter value to search: ",
+                                    ColorUtils.CYAN));
                     value = scanner.nextLine().trim();
 
                     if (value.isEmpty()) {
                         displayError(
-                            "  Value cannot be empty! Please try again."
-                        );
+                                "  Value cannot be empty! Please try again.");
                     }
                 }
 
                 String matchChoice = null;
                 while (matchChoice == null) {
                     System.out.print(
-                        ColorUtils.colorize(
-                            "  Match type (1=Exact, 2=Contains): ",
-                            ColorUtils.CYAN
-                        )
-                    );
+                            ColorUtils.colorize(
+                                    "  Match type (1=Exact, 2=Contains): ",
+                                    ColorUtils.CYAN));
                     matchChoice = scanner.nextLine().trim();
 
                     if (!matchChoice.equals("1") && !matchChoice.equals("2")) {
@@ -725,23 +627,17 @@ public class Tester extends BaseRole {
 
             System.out.println();
             System.out.println(
-                ColorUtils.colorize(
-                    "═══════════════════════════════════════════════════════════",
-                    ColorUtils.BRIGHT_BLUE
-                )
-            );
+                    ColorUtils.colorize(
+                            "═══════════════════════════════════════════════════════════",
+                            ColorUtils.BRIGHT_BLUE));
             System.out.println(
-                ColorUtils.colorize(
-                    "Query: " + criteria.toString(),
-                    ColorUtils.YELLOW
-                )
-            );
+                    ColorUtils.colorize(
+                            "Query: " + criteria.toString(),
+                            ColorUtils.YELLOW));
             System.out.println(
-                ColorUtils.colorize(
-                    "═══════════════════════════════════════════════════════════",
-                    ColorUtils.BRIGHT_BLUE
-                )
-            );
+                    ColorUtils.colorize(
+                            "═══════════════════════════════════════════════════════════",
+                            ColorUtils.BRIGHT_BLUE));
             System.out.println();
 
             if (results.isEmpty()) {
@@ -755,11 +651,9 @@ public class Tester extends BaseRole {
             pauseScreen();
 
             System.out.print(
-                ColorUtils.colorize(
-                    "\nPerform another search? (y/n): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "\nPerform another search? (y/n): ",
+                            ColorUtils.CYAN));
             String again = scanner.nextLine().trim().toLowerCase();
             if (!again.equals("y")) {
                 break;
@@ -774,23 +668,17 @@ public class Tester extends BaseRole {
         while (true) {
             ColorUtils.clearScreen();
             System.out.println(
-                ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╔════════════════════════════════════════════════════════════╗",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "║                    SORT CONTACTS                           ║",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "║                    SORT CONTACTS                           ║",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println(
-                ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
-                    ColorUtils.BRIGHT_CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "╚════════════════════════════════════════════════════════════╝",
+                            ColorUtils.BRIGHT_CYAN));
             System.out.println();
 
             List<Contact> contacts = contactManager.getAllContacts();
@@ -802,11 +690,9 @@ public class Tester extends BaseRole {
             }
 
             System.out.println(
-                ColorUtils.colorize(
-                    "Select field to sort by:",
-                    ColorUtils.YELLOW
-                )
-            );
+                    ColorUtils.colorize(
+                            "Select field to sort by:",
+                            ColorUtils.YELLOW));
             System.out.println("  1. Contact ID");
             System.out.println("  2. First Name");
             System.out.println("  3. Last Name");
@@ -817,8 +703,7 @@ public class Tester extends BaseRole {
             System.out.println();
 
             System.out.print(
-                ColorUtils.colorize("Select field: ", ColorUtils.CYAN)
-            );
+                    ColorUtils.colorize("Select field: ", ColorUtils.CYAN));
             String fieldChoice = scanner.nextLine().trim();
 
             if (fieldChoice.equals("0")) {
@@ -833,11 +718,9 @@ public class Tester extends BaseRole {
             }
 
             System.out.print(
-                ColorUtils.colorize(
-                    "Sort order (1=Ascending, 2=Descending): ",
-                    ColorUtils.CYAN
-                )
-            );
+                    ColorUtils.colorize(
+                            "Sort order (1=Ascending, 2=Descending): ",
+                            ColorUtils.CYAN));
             String orderChoice = scanner.nextLine().trim();
 
             if (!orderChoice.equals("1") && !orderChoice.equals("2")) {
@@ -849,27 +732,24 @@ public class Tester extends BaseRole {
             boolean ascending = orderChoice.equals("1");
 
             List<Contact> sortedContacts = contactManager.sortContacts(
-                contacts,
-                fieldName,
-                ascending
-            );
+                    contacts,
+                    fieldName,
+                    ascending);
 
             System.out.println();
             displaySuccess(
-                "Contacts sorted by " +
-                    fieldName +
-                    " (" +
-                    (ascending ? "Ascending" : "Descending") +
-                    ")"
-            );
+                    "Contacts sorted by " +
+                            fieldName +
+                            " (" +
+                            (ascending ? "Ascending" : "Descending") +
+                            ")");
             System.out.println();
             displayContactList(sortedContacts);
 
             pauseScreen();
 
             System.out.print(
-                ColorUtils.colorize("\nSort again? (y/n): ", ColorUtils.CYAN)
-            );
+                    ColorUtils.colorize("\nSort again? (y/n): ", ColorUtils.CYAN));
             String again = scanner.nextLine().trim().toLowerCase();
             if (!again.equals("y")) {
                 break;
@@ -932,7 +812,7 @@ public class Tester extends BaseRole {
     /**
      * Truncates a string to a specified length.
      *
-     * @param str The string to truncate
+     * @param str       The string to truncate
      * @param maxLength The maximum length
      * @return The truncated string
      */
