@@ -1,7 +1,7 @@
 -- ============================================================================
 -- CMPE-343 Project 2: Role-Based Contact Management System
 -- Database Schema and Sample Data
--- Group: 5
+-- Group: 17
 -- ============================================================================
 
 -- Drop existing database if exists and create new one

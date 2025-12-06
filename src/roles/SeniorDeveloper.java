@@ -161,19 +161,19 @@ public class SeniorDeveloper extends JuniorDeveloper {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═══════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                    ADD NEW CONTACT                         ║",
+                "║                    ADD NEW CONTACT                    ║",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═══════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_GREEN
             )
         );
@@ -452,19 +452,19 @@ public class SeniorDeveloper extends JuniorDeveloper {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═════════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                ADD MULTIPLE CONTACTS                       ║",
+                "║                    ADD MULTIPLE CONTACTS                    ║",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═════════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_GREEN
             )
         );
@@ -621,19 +621,19 @@ public class SeniorDeveloper extends JuniorDeveloper {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔══════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_RED
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║                   DELETE CONTACT                           ║",
+                    "║                    DELETE CONTACT                    ║",
                     ColorUtils.BRIGHT_RED
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚══════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_RED
                 )
             );
@@ -755,19 +755,19 @@ public class SeniorDeveloper extends JuniorDeveloper {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔════════════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_RED
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║              DELETE MULTIPLE CONTACTS                      ║",
+                "║                    DELETE MULTIPLE CONTACTS                    ║",
                 ColorUtils.BRIGHT_RED
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚════════════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_RED
             )
         );

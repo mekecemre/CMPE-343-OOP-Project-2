@@ -40,7 +40,7 @@ cd CMPE-343-OOP-Project-2/
 5. Click **New** and add the path to the MySQL `bin` directory, for example: `C:\Program Files\MySQL\MySQL Server X.X\bin`
 6. Click **OK** to close the dialogs and apply the changes.
 7. Open a new CMD Window for the change to take effect
-### Create the Database User (Optional, as it's already included within the group5.sql file)
+### Create the Database User (Optional, as it's already included within the Group17.sql file)
 
 Execute the following in CMD:
 
@@ -73,7 +73,7 @@ EXIT;
 cd CMPE-343-OOP-Project-2
 
 # Import the SQL file (REQUIRED)
-mysql -u myuser -p1234 < group5.sql
+mysql -u myuser -p1234 < Group17.sql
 
 # Verify import (VERIFICATION - optional but recommended)
 mysql -u myuser -p1234 -e "USE contact_management; SELECT COUNT(*) as users FROM users; SELECT COUNT(*) as contacts FROM contacts;"
@@ -157,7 +157,7 @@ EXIT;
 cd CMPE-343-OOP-Project-2
 
 # Import the SQL file (REQUIRED)
-mysql -u myuser -p1234 < group5.sql
+mysql -u myuser -p1234 < Group17.sql
 
 # Verify import (VERIFICATION - optional but recommended)
 mysql -u myuser -p1234 -e "USE contact_management; SELECT COUNT(*) as users FROM users; SELECT COUNT(*) as contacts FROM contacts;"

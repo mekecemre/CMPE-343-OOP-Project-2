@@ -136,19 +136,19 @@ public class Tester extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                    ALL CONTACTS                            ║",
+                "║                    ALL CONTACTS                    ║",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_CYAN
             )
         );
@@ -226,19 +226,19 @@ public class Tester extends BaseRole {
     protected void displayContactDetails(Contact contact) {
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═══════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                   CONTACT DETAILS                          ║",
+                "║                    CONTACT DETAILS                    ║",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═══════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_CYAN
             )
         );
@@ -308,19 +308,19 @@ public class Tester extends BaseRole {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔══════════════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║              SEARCH BY SINGLE FIELD                        ║",
+                    "║                    SEARCH BY SINGLE FIELD                    ║",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚══════════════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
@@ -447,19 +447,19 @@ public class Tester extends BaseRole {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔═════════════════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║             SEARCH BY MULTIPLE FIELDS                      ║",
+                    "║                    SEARCH BY MULTIPLE FIELDS                    ║",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚═════════════════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
@@ -636,19 +636,19 @@ public class Tester extends BaseRole {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔═══════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║                  ADVANCED SEARCH                           ║",
+                    "║                    ADVANCED SEARCH                    ║",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚═══════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
@@ -862,19 +862,19 @@ public class Tester extends BaseRole {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔═════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║                    SORT CONTACTS                           ║",
+                    "║                    SORT CONTACTS                    ║",
                     ColorUtils.BRIGHT_CYAN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚═════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_CYAN
                 )
             );

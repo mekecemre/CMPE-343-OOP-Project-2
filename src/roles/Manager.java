@@ -123,19 +123,19 @@ public class Manager extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔══════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                CONTACT STATISTICS                          ║",
+                "║                    CONTACT STATISTICS                    ║",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚══════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_CYAN
             )
         );
@@ -328,19 +328,19 @@ public class Manager extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                     ALL USERS                              ║",
+                "║                    ALL USERS                    ║",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_CYAN
             )
         );
@@ -416,19 +416,19 @@ public class Manager extends BaseRole {
     private void displayUserDetails(User user) {
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                     USER DETAILS                           ║",
+                "║                    USER DETAILS                    ║",
                 ColorUtils.BRIGHT_CYAN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_CYAN
             )
         );
@@ -467,19 +467,19 @@ public class Manager extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═════════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                  ADD NEW USER (EMPLOY)                     ║",
+                "║                    ADD NEW USER (EMPLOY)                    ║",
                 ColorUtils.BRIGHT_GREEN
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═════════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_GREEN
             )
         );
@@ -683,19 +683,19 @@ public class Manager extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═══════════════════════════════════════════════════╗",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                    UPDATE USER                             ║",
+                "║                    UPDATE USER                    ║",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═══════════════════════════════════════════════════╝",
                 ColorUtils.YELLOW
             )
         );
@@ -927,19 +927,19 @@ public class Manager extends BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔══════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_RED
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                  DELETE USER (FIRE)                        ║",
+                "║                    DELETE USER (FIRE)                    ║",
                 ColorUtils.BRIGHT_RED
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚══════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_RED
             )
         );

@@ -87,19 +87,19 @@ public abstract class BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔════════════════════════════════════════════════════════════════════════════╗",
                 ColorUtils.BRIGHT_BLUE
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║     ROLE-BASED CONTACT MANAGEMENT SYSTEM                   ║",
+                "║                    ROLE-BASED CONTACT MANAGEMENT SYSTEM                    ║",
                 ColorUtils.BRIGHT_BLUE
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚════════════════════════════════════════════════════════════════════════════╝",
                 ColorUtils.BRIGHT_BLUE
             )
         );
@@ -158,19 +158,19 @@ public abstract class BaseRole {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔═══════════════════════════════════════════════════════╗",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                    CHANGE PASSWORD                         ║",
+                "║                    CHANGE PASSWORD                    ║",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚═══════════════════════════════════════════════════════╝",
                 ColorUtils.YELLOW
             )
         );

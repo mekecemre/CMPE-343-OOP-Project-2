@@ -131,19 +131,19 @@ public class JuniorDeveloper extends Tester {
             ColorUtils.clearScreen();
             System.out.println(
                 ColorUtils.colorize(
-                    "╔════════════════════════════════════════════════════════════╗",
+                    "╔══════════════════════════════════════════════════════╗",
                     ColorUtils.BRIGHT_GREEN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "║                  UPDATE CONTACT                            ║",
+                    "║                    UPDATE CONTACT                    ║",
                     ColorUtils.BRIGHT_GREEN
                 )
             );
             System.out.println(
                 ColorUtils.colorize(
-                    "╚════════════════════════════════════════════════════════════╝",
+                    "╚══════════════════════════════════════════════════════╝",
                     ColorUtils.BRIGHT_GREEN
                 )
             );
@@ -544,19 +544,19 @@ public class JuniorDeveloper extends Tester {
         ColorUtils.clearScreen();
         System.out.println(
             ColorUtils.colorize(
-                "╔════════════════════════════════════════════════════════════╗",
+                "╔══════════════════════════════════════════════════════╗",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "║                    UNDO OPERATION                          ║",
+                "║                    UNDO OPERATION                    ║",
                 ColorUtils.YELLOW
             )
         );
         System.out.println(
             ColorUtils.colorize(
-                "╚════════════════════════════════════════════════════════════╝",
+                "╚══════════════════════════════════════════════════════╝",
                 ColorUtils.YELLOW
             )
         );
